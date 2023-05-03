@@ -1,0 +1,32 @@
+{
+    "name": "autopilot-internal/ebay-account-sdk",
+    "description": "eBay Account API",
+    "keywords": [
+        "ebay",
+        "account",
+        "sdk",
+        "api"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^6.3 || ^7.3"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3.6",
+        "friendsofphp/php-cs-fixer": "^v2.19"
+    },
+    "autoload": {
+        "psr-4": { "EBay\\Account\\" : "lib/"}
+    },
+    "autoload-dev": {
+        "psr-4": { "EBay\\Account\\" : "test/" }
+    }
+}
+
+
