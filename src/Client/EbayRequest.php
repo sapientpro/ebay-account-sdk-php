@@ -6,13 +6,16 @@ use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Request;
 use SapientPro\EbayAccountSDK\Configuration;
 use SapientPro\EbayAccountSDK\HeaderSelector;
-use SapientPro\EbayAccountSDK\Model\ModelInterface;
+use SapientPro\EbayAccountSDK\Models\EbayModelInterface;
 use SapientPro\EbayAccountSDK\ObjectSerializer;
 
 class EbayRequest
 {
-    public function __construct(private HeaderSelector $headerSelector, private Configuration $config)
-    {
+    public function __construct(
+        private HeaderSelector $headerSelector,
+        private Configuration $config,
+        private Serializer $serializer
+    ) {
     }
 
     public function getRequest(
@@ -32,7 +35,7 @@ class EbayRequest
     }
 
     public function postRequest(
-        ModelInterface $body,
+        EbayModelInterface $body,
         string $resourcePath,
         array $queryParameters = null,
         string $x_ebay_c_marketplace_id = null
@@ -45,7 +48,25 @@ class EbayRequest
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
-            (string) $body
+            $this->serializer->serialize($body)
+        );
+    }
+
+    public function putRequest(
+        EbayModelInterface $body,
+        string $resourcePath,
+        array $queryParameters = null,
+        string $x_ebay_c_marketplace_id = null
+    ): Request {
+        $parameters = $this->processParameters($queryParameters, $x_ebay_c_marketplace_id);
+        $query = $parameters['query'];
+        $headers = $parameters['headers'];
+
+        return new Request(
+            'PUT',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $this->serializer->serialize($body)
         );
     }
 
