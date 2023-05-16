@@ -58,16 +58,14 @@ class CustomPolicyApi implements ApiInterface
      * @param  MarketplaceIdEnum  $xEbayCMarketplaceId  Ebay marketplace for the custom policy that is being created.
      * Supported values for this header can be found in the MarketplaceIdEnum
      *
-     * @return array
+     * @return void
      * @throws ApiException on non-2xx response
      */
     public function createCustomPolicy(
         CustomPolicyCreateRequest $body,
         MarketplaceIdEnum $xEbayCMarketplaceId
-    ): array {
-        $response = $this->createCustomPolicyWithHttpInfo($body, $xEbayCMarketplaceId);
-
-        return $response['data'];
+    ): void {
+        $this->createCustomPolicyWithHttpInfo($body, $xEbayCMarketplaceId);
     }
 
     /**

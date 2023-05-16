@@ -1,31 +1,27 @@
-# EBay\Account\KycApi
+# SapientPro\EbayAccountSDK\Api\KycApi
 
 All URIs are relative to *https://api.ebay.com/sell/account/v1*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getKYC**](KycApi.md#getkyc) | **GET** /kyc | 
+| Method                         | HTTP request | Description |
+|--------------------------------|--------------|-------------|
+| [**getKYC**](KycApi.md#getkyc) | **GET** /kyc |             |
 
 # **getKYC**
-> \EBay\Account\Model\KycResponse getKYC()
-
-
+>  getKYC(): void
 
 <span class=\"tablenote\"><b>Note:</b>This method was originally created to see which onboarding requirements were still pending for sellers being onboarded for eBay managed payments, but now that all seller accounts are onboarded globally, this method should now just returne an empty payload with a <code>204 No Content</code> HTTP status code. </span>
 
 ### Example
 ```php
 <?php
-require_once(__DIR__ . '/vendor/autoload.php');
+use SapientPro\EbayAccountSDK\Configuration;
+use SapientPro\EbayAccountSDK\Api\KycApi;
 
 // Configure OAuth2 access token for authorization: api_auth
-$config = EBay\Account\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$apiInstance = new EBay\Account\Api\KycApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
+$apiInstance = new KycApi(
+    config: $config
 );
 
 try {
@@ -42,7 +38,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**\EBay\Account\Model\KycResponse**](../Model/KycResponse.md)
+**void**
 
 ### Authorization
 
