@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use SapientPro\EbayAccountSDK\Enums\CustomPolicyTypeEnum;
 
 /**
  * This container defines a seller's custom policy identified by policy ID for the selected eBay marketplace.
@@ -47,7 +48,10 @@ class CustomPolicy implements EbayModelInterface
      * Two Custom Policy types are supported:
      * <ul><li>Product Compliance (PRODUCT_COMPLIANCE)</li>
      * <li>Takeback (TAKE_BACK)</li></ul>
-     * For implementation help, refer to https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'
+     * For implementation help, refer to
+     * https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum
+     *
+     * @var CustomPolicyTypeEnum
      */
-    public string $policyType;
+    public CustomPolicyTypeEnum $policyType;
 }

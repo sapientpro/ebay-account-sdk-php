@@ -1,16 +1,16 @@
 <?php
 
-namespace SapientPro\EbayAccountSDK\Tests;
+namespace SapientPro\EbayAccountSDK\Tests\Unit\Api;
 
 use PHPUnit\Framework\TestCase;
 use SapientPro\EbayAccountSDK\Api\CustomPolicyApi;
 use SapientPro\EbayAccountSDK\Enums\CustomPolicyTypeEnum;
-use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use SapientPro\EbayAccountSDK\Models\CompactCustomPolicyResponse;
 use SapientPro\EbayAccountSDK\Models\CustomPolicy;
 use SapientPro\EbayAccountSDK\Models\CustomPolicyCreateRequest;
 use SapientPro\EbayAccountSDK\Models\CustomPolicyRequest;
 use SapientPro\EbayAccountSDK\Models\CustomPolicyResponse;
+use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use SapientPro\EbayAccountSDK\Tests\Unit\Concerns\CreatesApiClass;
 use SapientPro\EbayAccountSDK\Tests\Unit\Concerns\MocksClient;
 
@@ -40,7 +40,7 @@ class CustomPolicyApiTest extends TestCase
             "description" => "Take Back POlict",
             "label" => "policy_label",
             "name" => "policy_name",
-            "policyType" => "TAKE_BACK"
+            "policyType" => CustomPolicyTypeEnum::TAKE_BACK
         ]);
 
         $expectedResult = [
@@ -57,7 +57,7 @@ class CustomPolicyApiTest extends TestCase
 
     public function testGetCustomPolicies()
     {
-        $mockBody = '
+        $mockBody = <<<JSON
         {
             "customPolicies": [
                 {
@@ -73,7 +73,8 @@ class CustomPolicyApiTest extends TestCase
                     "policyType": "TAKE_BACK"
                 }
             ]
-        }';
+        }
+JSON;
 
         $expectedResponse = CustomPolicyResponse::fromArray([
             'customPolicies' => [
@@ -103,15 +104,15 @@ class CustomPolicyApiTest extends TestCase
 
     public function testGetCustomPolicy(): void
     {
-        $mockBody = '
+        $mockBody = <<<JSON
         {
             "customPolicyId": "id24",
             "description": "Description",
             "label": "Take-back Policy",
             "name": "Take_Back_Policy_01",
             "policyType": "TAKE_BACK"
-        }';
-
+        }
+JSON;
         $expectedResponse = CustomPolicy::fromArray([
             'customPolicyId' => "id24",
             'description' => "Description",

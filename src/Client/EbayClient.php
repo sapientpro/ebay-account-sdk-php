@@ -4,11 +4,9 @@ namespace SapientPro\EbayAccountSDK\Client;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
 use SapientPro\EbayAccountSDK\ApiException;
-use SapientPro\EbayAccountSDK\ObjectSerializer;
 
 class EbayClient
 {
@@ -35,37 +33,6 @@ class EbayClient
         return $this->prepareResponse($response, $request->getUri(), $returnType);
     }
 
-    public function sendAsync(Request $request, string $returnType = null): PromiseInterface
-    {
-        return $this->client
-            ->sendAsync($request)
-            ->then(
-                function ($response) use ($returnType) {
-                    $content = json_decode($response->getBody()->getContents());
-
-                    return [
-                        ObjectSerializer::deserialize($content, $returnType),
-                        $response->getStatusCode(),
-                        $response->getHeaders(),
-                    ];
-                },
-                function ($exception) {
-                    $response = $exception->getResponse();
-                    $statusCode = $response->getStatusCode();
-                    throw new ApiException(
-                        sprintf(
-                            '[%d] Error connecting to the API (%s)',
-                            $statusCode,
-                            $exception->getRequest()->getUri()
-                        ),
-                        $statusCode,
-                        $response->getHeaders(),
-                        $response->getBody()
-                    );
-                }
-            );
-    }
-
     /**
      * @throws ApiException
      */
@@ -78,7 +45,7 @@ class EbayClient
         $preparedResponse['code'] = $statusCode;
 
         if (!empty($response->getHeaders())) {
-            $preparedResponse['headers'] = $statusCode;
+            $preparedResponse['headers'] = $response->getHeaders();
         }
 
         if ($statusCode < 200 || $statusCode > 299) {
@@ -96,7 +63,7 @@ class EbayClient
 
         $content = $response->getBody()->getContents();
 
-        if (!empty($content)) {
+        if (!empty($content) && null !== $returnType) {
             $model = $this->serializer->deserialize($content, $returnType);
 
             if (null !== $model) {

@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use SapientPro\EbayAccountSDK\Enums\CustomPolicyTypeEnum;
 
 /**
  * The response payload for requests that return a list of custom policies.
@@ -39,6 +40,8 @@ class CompactCustomPolicyResponse implements EbayModelInterface
      * <li>Takeback (TAKE_BACK)</li></ul>
      * For implementation help,
      * refer to https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'
+     *
+     * @var CustomPolicyTypeEnum
      */
-    public string $policyType;
+    public CustomPolicyTypeEnum $policyType;
 }

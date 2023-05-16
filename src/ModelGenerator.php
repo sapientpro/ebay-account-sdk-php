@@ -12,7 +12,6 @@ use SapientPro\EbayAccountSDK\Models\EbayModelInterface;
 class ModelGenerator
 {
     private const SOURCE_PATH = 'src';
-
     private Filesystem $fileSystem;
 
     public function __construct()
@@ -20,6 +19,7 @@ class ModelGenerator
         $localAdapter = new LocalFilesystemAdapter(self::SOURCE_PATH);
         $this->fileSystem = new Filesystem($localAdapter);
     }
+
     public function generate(string $jsonPath): void
     {
         $json = $this->fileSystem->read($jsonPath);

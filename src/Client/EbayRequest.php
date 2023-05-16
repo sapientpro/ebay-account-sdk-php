@@ -7,7 +7,6 @@ use GuzzleHttp\Psr7\Request;
 use SapientPro\EbayAccountSDK\Configuration;
 use SapientPro\EbayAccountSDK\HeaderSelector;
 use SapientPro\EbayAccountSDK\Models\EbayModelInterface;
-use SapientPro\EbayAccountSDK\ObjectSerializer;
 
 class EbayRequest
 {
@@ -21,9 +20,9 @@ class EbayRequest
     public function getRequest(
         string $resourcePath,
         array $queryParameters = null,
-        string $x_ebay_c_marketplace_id = null
+        array $headerParameters = null
     ): Request {
-        $parameters = $this->processParameters($queryParameters, $x_ebay_c_marketplace_id);
+        $parameters = $this->processParameters('GET', $queryParameters, $headerParameters);
         $query = $parameters['query'];
         $headers = $parameters['headers'];
 
@@ -38,9 +37,9 @@ class EbayRequest
         EbayModelInterface $body,
         string $resourcePath,
         array $queryParameters = null,
-        string $x_ebay_c_marketplace_id = null
+        array $headerParameters = null
     ): Request {
-        $parameters = $this->processParameters($queryParameters, $x_ebay_c_marketplace_id);
+        $parameters = $this->processParameters('POST', $queryParameters, $headerParameters);
         $query = $parameters['query'];
         $headers = $parameters['headers'];
 
@@ -56,9 +55,9 @@ class EbayRequest
         EbayModelInterface $body,
         string $resourcePath,
         array $queryParameters = null,
-        string $x_ebay_c_marketplace_id = null
+        array $headerParameters = null
     ): Request {
-        $parameters = $this->processParameters($queryParameters, $x_ebay_c_marketplace_id);
+        $parameters = $this->processParameters('PUT', $queryParameters, $headerParameters);
         $query = $parameters['query'];
         $headers = $parameters['headers'];
 
@@ -70,30 +69,63 @@ class EbayRequest
         );
     }
 
-    private function processParameters(
+    public function deleteRequest(
+        string $resourcePath,
         array $queryParameters = null,
-        string $x_ebay_c_marketplace_id = null
+        array $headerParameters = null
+    ): Request {
+        $parameters = $this->processParameters('DELETE', $queryParameters, $headerParameters);
+        $query = $parameters['query'];
+        $headers = $parameters['headers'];
+
+        return new Request(
+            'DELETE',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers
+        );
+    }
+
+    private function processParameters(
+        string $method,
+        array $queryParameters = null,
+        array $headerParameters = null
     ): array {
         $queryParams = [];
         $headerParams = [];
 
         if (null !== $queryParameters) {
             foreach ($queryParameters as $key => $parameter) {
-                $queryParams[$key] = ObjectSerializer::toQueryValue($parameter);
+                $queryParams[$key] = Serializer::toQueryValue($parameter);
             }
         }
 
-        if (null !== $x_ebay_c_marketplace_id) {
-            $headerParams['X-EBAY-C-MARKETPLACE-ID'] = ObjectSerializer::toHeaderValue($x_ebay_c_marketplace_id);
+        if (null !== $headerParameters) {
+            foreach ($headerParameters as $key => $parameter) {
+                $headerParams[$key] = $parameter;
+            }
         }
 
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            ['application/json']
-        );
+        $headers = match ($method) {
+            'GET' => $this->headerSelector->selectHeaders(
+                ['application/json'],
+                []
+            ),
+            'POST' => $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            ),
+            'PUT' => $this->headerSelector->selectHeaders(
+                [],
+                ['application/json']
+            ),
+            'DELETE' => $this->headerSelector->selectHeaders(
+                [],
+                []
+            ),
+        };
 
         // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
+        if (null !== $this->config->getAccessToken()) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }
 

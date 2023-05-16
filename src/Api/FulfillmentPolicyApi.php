@@ -1,0 +1,435 @@
+<?php
+
+namespace SapientPro\EbayAccountSDK\Api;
+
+use SapientPro\EbayAccountSDK\ApiException;
+use SapientPro\EbayAccountSDK\Client\EbayClient;
+use SapientPro\EbayAccountSDK\Client\EbayRequest;
+use SapientPro\EbayAccountSDK\Client\Serializer;
+use SapientPro\EbayAccountSDK\Configuration;
+use SapientPro\EbayAccountSDK\HeaderSelector;
+use SapientPro\EbayAccountSDK\Models\FulfillmentPolicy;
+use SapientPro\EbayAccountSDK\Models\FulfillmentPolicyRequest;
+use SapientPro\EbayAccountSDK\Models\FulfillmentPolicyResponse;
+use SapientPro\EbayAccountSDK\Models\SetFulfillmentPolicyResponse;
+use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
+use SapientPro\EbayAccountSDK\ObjectSerializer;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Request;
+use InvalidArgumentException;
+
+/**
+ * @package  SapientPro\EbayAccountSDK
+ * @author   Swagger Codegen team
+ * @link     https://github.com/swagger-api/swagger-codegen
+ */
+class FulfillmentPolicyApi implements ApiInterface
+{
+    protected ClientInterface $client;
+
+    protected Configuration $config;
+
+    protected EbayClient $ebayClient;
+
+    protected EbayRequest $ebayRequest;
+
+    public function __construct(
+        EbayClient $ebayClient = null,
+        EbayRequest $ebayRequest = null,
+        ClientInterface $client = null,
+        Configuration $config = null,
+    ) {
+        $serializer = new Serializer();
+        $this->client = $client ?: new Client();
+        $this->config = $config ?: new Configuration();
+        $this->ebayClient = $ebayClient ?: new EbayClient($this->client, $serializer);
+        $this->ebayRequest = $ebayRequest ?: new EbayRequest(new HeaderSelector(), $this->config, $serializer);
+    }
+
+    public function getConfig(): Configuration
+    {
+        return $this->config;
+    }
+
+    /**
+     * Operation createFulfillmentPolicy
+     *
+     * @param  FulfillmentPolicyRequest  $body  Request to create a seller account fulfillment policy. (required)
+     *
+     * @return SetFulfillmentPolicyResponse
+     * @throws InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     */
+    public function createFulfillmentPolicy(FulfillmentPolicyRequest $body): SetFulfillmentPolicyResponse
+    {
+        $response = $this->createFulfillmentPolicyWithHttpInfo($body);
+
+        return $response['data'];
+    }
+
+    /**
+     * Operation createFulfillmentPolicyWithHttpInfo
+     *
+     * @param  FulfillmentPolicyRequest  $body  Request to create a seller account fulfillment policy. (required)
+     *
+     * @return array of \SapientPro\EbayAccountSDK\Model\SetFulfillmentPolicyResponse,
+     * HTTP status code, HTTP response headers (array of strings)
+     * @throws InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     */
+    public function createFulfillmentPolicyWithHttpInfo(FulfillmentPolicyRequest $body): array
+    {
+        $returnType = SetFulfillmentPolicyResponse::class;
+        $request = $this->createFulfillmentPolicyRequest($body);
+
+        return $this->ebayClient->sendRequest($request, $returnType);
+    }
+
+    /**
+     * Create request for operation 'createFulfillmentPolicy'
+     *
+     * @param  FulfillmentPolicyRequest  $body  Request to create a seller account fulfillment policy. (required)
+     *
+     * @return Request
+     * @throws InvalidArgumentException
+     */
+    protected function createFulfillmentPolicyRequest(FulfillmentPolicyRequest $body): Request
+    {
+        $resourcePath = '/fulfillment_policy/';
+
+        return $this->ebayRequest->postRequest(
+            $body,
+            $resourcePath
+        );
+    }
+
+    /**
+     * Operation createFulfillmentPolicyAsync
+     *
+     * @param  FulfillmentPolicyRequest  $body  Request to create a seller account fulfillment policy. (required)
+     *
+     * @return PromiseInterface
+     * @throws InvalidArgumentException
+     */
+    public function createFulfillmentPolicyAsync(FulfillmentPolicyRequest $body): PromiseInterface
+    {
+        return $this->createFulfillmentPolicyAsyncWithHttpInfo($body)
+            ->then(
+                function ($response) {
+                    return $response['data'];
+                }
+            );
+    }
+
+    /**
+     * Operation createFulfillmentPolicyAsyncWithHttpInfo
+     *
+     *
+     *
+     * @param  FulfillmentPolicyRequest  $body  Request to create a seller account fulfillment policy. (required)
+     *
+     * @return PromiseInterface
+     * @throws InvalidArgumentException
+     */
+    public function createFulfillmentPolicyAsyncWithHttpInfo(FulfillmentPolicyRequest $body): PromiseInterface
+    {
+        $returnType = SetFulfillmentPolicyResponse::class;
+        $request = $this->createFulfillmentPolicyRequest($body);
+
+        return $this->ebayClient->sendAsync($request, $returnType);
+    }
+
+    /**
+     * Operation deleteFulfillmentPolicy
+     *
+     * @param  string  $fulfillmentPolicyId  This path parameter specifies the ID of the fulfillment policy to delete.
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     */
+    public function deleteFulfillmentPolicy(string $fulfillmentPolicyId): void
+    {
+        $this->deleteFulfillmentPolicyWithHttpInfo($fulfillmentPolicyId);
+    }
+
+    /**
+     * Operation deleteFulfillmentPolicyWithHttpInfo
+     *
+     * @param  string  $fulfillmentPolicyId  This path parameter specifies the ID of the fulfillment policy to delete.
+     *
+     * @return array
+     * @throws InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     */
+    public function deleteFulfillmentPolicyWithHttpInfo(string $fulfillmentPolicyId): array
+    {
+        $request = $this->deleteFulfillmentPolicyRequest($fulfillmentPolicyId);
+
+        return $this->ebayClient->sendRequest($request);
+    }
+
+    /**
+     * Create request for operation 'deleteFulfillmentPolicy'
+     *
+     * @param  string  $fulfillmentPolicyId  This path parameter specifies the ID of the fulfillment policy to delete.
+     *
+     * @return Request
+     * @throws InvalidArgumentException
+     */
+    protected function deleteFulfillmentPolicyRequest(string $fulfillmentPolicyId): Request
+    {
+        $resourcePath = '/fulfillment_policy/{fulfillmentPolicyId}';
+
+        $resourcePath = str_replace(
+            '{' . 'fulfillmentPolicyId' . '}',
+            Serializer::toPathValue($fulfillmentPolicyId),
+            $resourcePath
+        );
+
+        return $this->ebayRequest->deleteRequest($resourcePath);
+    }
+
+    /**
+     * Operation getFulfillmentPolicies
+     *
+     * @param  MarketplaceIdEnum  $marketplaceId
+     *  This query parameter specifies the eBay marketplace of the policies you want to retrieve.
+     *  For implementation help, refer to eBay API documentation at
+     *  https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum
+     *
+     * @return FulfillmentPolicyResponse
+     * @throws ApiException on non-2xx response
+     */
+    public function getFulfillmentPolicies(MarketplaceIdEnum $marketplaceId): FulfillmentPolicyResponse
+    {
+        $response = $this->getFulfillmentPoliciesWithHttpInfo($marketplaceId);
+
+        return $response['data'];
+    }
+
+    /**
+     * Operation getFulfillmentPoliciesWithHttpInfo
+     *
+     * @param  MarketplaceIdEnum  $marketplaceId
+     *  This query parameter specifies the eBay marketplace of the policies you want to retrieve.
+     *  For implementation help, refer to eBay API documentation at
+     *  https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum
+     *
+     * @return array of FulfillmentPolicyResponse, HTTP status code, HTTP response headers (array of strings)
+     * @throws ApiException on non-2xx response
+     */
+    public function getFulfillmentPoliciesWithHttpInfo(MarketplaceIdEnum $marketplaceId): array
+    {
+        $returnType = FulfillmentPolicyResponse::class;
+        $request = $this->getFulfillmentPoliciesRequest($marketplaceId);
+
+        return $this->ebayClient->sendRequest($request, $returnType);
+    }
+
+    /**
+     * Create request for operation 'getFulfillmentPolicies'
+     *
+     * @param  MarketplaceIdEnum  $marketplaceId
+     *  This query parameter specifies the eBay marketplace of the policies you want to retrieve.
+     *  For implementation help, refer to eBay API documentation at
+     *  https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum
+     *
+     * @return Request
+     */
+    protected function getFulfillmentPoliciesRequest(MarketplaceIdEnum $marketplaceId): Request
+    {
+        $resourcePath = '/fulfillment_policy';
+
+        $queryParams['marketplace_id'] = Serializer::toQueryValue($marketplaceId->value);
+
+        return $this->ebayRequest->getRequest($resourcePath, $queryParams);
+    }
+
+    /**
+     * Operation getFulfillmentPolicy
+     *
+     * @param  string  $fulfillmentPolicyId
+     *
+     * @return FulfillmentPolicy
+     * @throws InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     */
+    public function getFulfillmentPolicy(string $fulfillmentPolicyId): FulfillmentPolicy
+    {
+        $response = $this->getFulfillmentPolicyWithHttpInfo($fulfillmentPolicyId);
+
+        return $response['data'];
+    }
+
+    /**
+     * Operation getFulfillmentPolicyWithHttpInfo
+     *
+     * @param  string  $fulfillmentPolicyId
+     *
+     * @return array of \SapientPro\EbayAccountSDK\Model\FulfillmentPolicy, HTTP status code, HTTP response headers
+     * @throws InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     */
+    public function getFulfillmentPolicyWithHttpInfo(string $fulfillmentPolicyId): array
+    {
+        $returnType = FulfillmentPolicy::class;
+        $request = $this->getFulfillmentPolicyRequest($fulfillmentPolicyId);
+
+        return $this->ebayClient->sendRequest($request, $returnType);
+    }
+
+    /**
+     * Create request for operation 'getFulfillmentPolicy'
+     *
+     * @param  string  $fulfillmentPolicyId ID of the fulfillment policy you want to retrieve. (required)
+     *
+     * @return Request
+     * @throws InvalidArgumentException
+     */
+    protected function getFulfillmentPolicyRequest(string $fulfillmentPolicyId): Request
+    {
+        $resourcePath = '/fulfillment_policy/{fulfillmentPolicyId}';
+
+        $resourcePath = str_replace(
+            '{' . 'fulfillmentPolicyId' . '}',
+            ObjectSerializer::toPathValue($fulfillmentPolicyId),
+            $resourcePath
+        );
+
+        return $this->ebayRequest->getRequest($resourcePath);
+    }
+
+    /**
+     * Operation getFulfillmentPolicyByName
+     *
+     * @param  MarketplaceIdEnum  $marketplaceId
+     *  This query parameter specifies the eBay marketplace of the policy you want to retrieve.
+     *  For implementation help, refer to eBay API documentation at
+     *  https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum
+     *
+     * @param  string  $name
+     *  This query parameter specifies the seller-defined name of the fulfillment policy you want to retrieve.
+     *
+     * @return FulfillmentPolicy
+     * @throws ApiException on non-2xx response
+     */
+    public function getFulfillmentPolicyByName(MarketplaceIdEnum $marketplaceId, string $name): FulfillmentPolicy
+    {
+        $response = $this->getFulfillmentPolicyByNameWithHttpInfo($marketplaceId, $name);
+
+        return $response['data'];
+    }
+
+    /**
+     * Operation getFulfillmentPolicyByNameWithHttpInfo
+     *
+     * @param  MarketplaceIdEnum  $marketplaceId
+     *  This query parameter specifies the eBay marketplace of the policy you want to retrieve.
+     *  For implementation help, refer to eBay API documentation at
+     *  https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum
+     * @param  string  $name
+     *  This query parameter specifies the seller-defined name of the fulfillment policy you want to retrieve.
+     *
+     * @return array of \SapientPro\EbayAccountSDK\Model\FulfillmentPolicy, HTTP status code, HTTP response headers
+     * @throws ApiException on non-2xx response
+     */
+    public function getFulfillmentPolicyByNameWithHttpInfo(MarketplaceIdEnum $marketplaceId, string $name): array
+    {
+        $returnType = FulfillmentPolicy::class;
+        $request = $this->getFulfillmentPolicyByNameRequest($marketplaceId, $name);
+
+        return $this->ebayClient->sendRequest($request, $returnType);
+    }
+
+    /**
+     * Create request for operation 'getFulfillmentPolicyByName'
+     *
+     * @param  MarketplaceIdEnum  $marketplaceId
+     *  This query parameter specifies the eBay marketplace of the policy you want to retrieve.
+     *  For implementation help, refer to eBay API documentation at
+     *  https://developer.ebay.com/api-docs/sell/account/types/ba:MarketplaceIdEnum
+     *
+     * @param  string  $name
+     *  This query parameter specifies the seller-defined name of the fulfillment policy you want to retrieve.
+     *
+     * @return Request
+     */
+    protected function getFulfillmentPolicyByNameRequest(MarketplaceIdEnum $marketplaceId, string $name): Request
+    {
+        $resourcePath = '/fulfillment_policy/get_by_policy_name';
+
+        $queryParams['marketplace_id'] = Serializer::toQueryValue($marketplaceId->value);
+        $queryParams['name'] = Serializer::toQueryValue($name);
+
+        return $this->ebayRequest->getRequest($resourcePath, $queryParams);
+    }
+
+    /**
+     * Operation updateFulfillmentPolicy
+     *
+     * @param  FulfillmentPolicyRequest  $body  Fulfillment policy request (required)
+     * @param  string  $fulfillmentPolicyId
+     *  This path parameter specifies the ID of the fulfillment policy you want to update.
+     *
+     * @return SetFulfillmentPolicyResponse
+     * @throws InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     */
+    public function updateFulfillmentPolicy(
+        FulfillmentPolicyRequest $body,
+        string $fulfillmentPolicyId
+    ): SetFulfillmentPolicyResponse {
+        $response = $this->updateFulfillmentPolicyWithHttpInfo($body, $fulfillmentPolicyId);
+
+        return $response['data'];
+    }
+
+    /**
+     * Operation updateFulfillmentPolicyWithHttpInfo
+     *
+     * @param  FulfillmentPolicyRequest  $body  Fulfillment policy request (required)
+     * @param  string  $fulfillmentPolicyId
+     *  This path parameter specifies the ID of the fulfillment policy you want to update.
+     *
+     * @return array of SetFulfillmentPolicyResponse, HTTP status code, HTTP response headers (array of strings)
+     * @throws InvalidArgumentException
+     * @throws ApiException on non-2xx response
+     */
+    public function updateFulfillmentPolicyWithHttpInfo(
+        FulfillmentPolicyRequest $body,
+        string $fulfillmentPolicyId
+    ): array {
+        $returnType = SetFulfillmentPolicyResponse::class;
+        $request = $this->updateFulfillmentPolicyRequest($body, $fulfillmentPolicyId);
+
+        return $this->ebayClient->sendRequest($request, $returnType);
+    }
+
+    /**
+     * Create request for operation 'updateFulfillmentPolicy'
+     *
+     * @param  FulfillmentPolicyRequest  $body  Fulfillment policy request
+     * @param  string  $fulfillmentPolicyId
+     * This path parameter specifies the ID of the fulfillment policy you want to update.
+     *
+     * @return Request
+     * @throws InvalidArgumentException
+     */
+    protected function updateFulfillmentPolicyRequest(
+        FulfillmentPolicyRequest $body,
+        string $fulfillmentPolicyId
+    ): Request {
+        $resourcePath = '/fulfillment_policy/{fulfillmentPolicyId}';
+
+        $resourcePath = str_replace(
+            '{' . 'fulfillmentPolicyId' . '}',
+            Serializer::toPathValue($fulfillmentPolicyId),
+            $resourcePath
+        );
+
+        return $this->ebayRequest->putRequest($body, $resourcePath);
+    }
+}

@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Models\Concerns;
 
 use SapientPro\EbayAccountSDK\Models\EbayModelInterface;
+use SapientPro\EbayAccountSDK\Models\NonExistentPropertyException;
 
 trait FillsModel
 {
@@ -15,5 +16,12 @@ trait FillsModel
         }
 
         return $model;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        throw new NonExistentPropertyException(
+            "Cannot set property $name to " . __CLASS__ . ', as it is not declared in the model'
+        );
     }
 }

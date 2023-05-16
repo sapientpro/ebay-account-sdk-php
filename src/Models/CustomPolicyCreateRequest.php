@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use SapientPro\EbayAccountSDK\Enums\CustomPolicyTypeEnum;
 
 /**
  * This type is used by the request payload of the createCustomPolicy method
@@ -40,6 +41,8 @@ class CustomPolicyCreateRequest implements EbayModelInterface
      * <li>Takeback (TAKE_BACK)</li></ul>
      * For implementation help,
      * refer to https://developer.ebay.com/api-docs/sell/account/types/api:CustomPolicyTypeEnum'
+     *
+     * @var CustomPolicyTypeEnum
      */
-    public string $policyType;
+    public CustomPolicyTypeEnum $policyType;
 }
