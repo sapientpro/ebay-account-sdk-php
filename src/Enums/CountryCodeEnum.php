@@ -750,4 +750,6 @@ enum CountryCodeEnum: string
 
     /** @var string Zimbabwe */
     case ZW = 'ZW';
+
+    case WRONG = 'WRONG';
 }

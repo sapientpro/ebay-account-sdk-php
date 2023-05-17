@@ -13,7 +13,6 @@ use SapientPro\EbayAccountSDK\Models\CustomPolicyCreateRequest;
 use SapientPro\EbayAccountSDK\Models\CustomPolicyRequest;
 use SapientPro\EbayAccountSDK\Models\CustomPolicyResponse;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
-use SapientPro\EbayAccountSDK\ObjectSerializer;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
@@ -229,7 +228,7 @@ class CustomPolicyApi implements ApiInterface
 
         $resourcePath = str_replace(
             '{' . 'custom_policy_id' . '}',
-            ObjectSerializer::toPathValue($customPolicyId),
+            Serializer::toPathValue($customPolicyId),
             $resourcePath
         );
 
@@ -301,7 +300,7 @@ class CustomPolicyApi implements ApiInterface
 
         $resourcePath = str_replace(
             '{' . 'custom_policy_id' . '}',
-            ObjectSerializer::toPathValue($customPolicyId),
+            Serializer::toPathValue($customPolicyId),
             $resourcePath
         );
 

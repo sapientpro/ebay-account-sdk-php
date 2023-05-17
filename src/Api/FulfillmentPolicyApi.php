@@ -13,7 +13,6 @@ use SapientPro\EbayAccountSDK\Models\FulfillmentPolicyRequest;
 use SapientPro\EbayAccountSDK\Models\FulfillmentPolicyResponse;
 use SapientPro\EbayAccountSDK\Models\SetFulfillmentPolicyResponse;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
-use SapientPro\EbayAccountSDK\ObjectSerializer;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -295,7 +294,7 @@ class FulfillmentPolicyApi implements ApiInterface
 
         $resourcePath = str_replace(
             '{' . 'fulfillmentPolicyId' . '}',
-            ObjectSerializer::toPathValue($fulfillmentPolicyId),
+            Serializer::toPathValue($fulfillmentPolicyId),
             $resourcePath
         );
 

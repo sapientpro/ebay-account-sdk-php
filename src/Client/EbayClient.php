@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Client;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ResponseInterface;
@@ -10,7 +11,7 @@ use SapientPro\EbayAccountSDK\ApiException;
 
 class EbayClient
 {
-    public function __construct(private Client $client, private Serializer $serializer)
+    public function __construct(private ClientInterface $client, private Serializer $serializer)
     {
     }
 
@@ -22,11 +23,14 @@ class EbayClient
         try {
             $response = $this->client->send($request);
         } catch (RequestException $e) {
+            $body = $e->getResponse()?->getBody()?->getContents();
             throw new ApiException(
                 "[{$e->getCode()}] {$e->getMessage()}",
                 $e->getCode(),
                 $e->getResponse()?->getHeaders(),
-                $e->getResponse()?->getBody()?->getContents()
+                null !== $body
+                    ? json_decode($body, true)
+                    : null
             );
         }
 

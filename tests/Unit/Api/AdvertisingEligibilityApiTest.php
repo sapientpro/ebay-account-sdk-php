@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Tests\Unit\Api;
 
 use PHPUnit\Framework\TestCase;
 use SapientPro\EbayAccountSDK\Api\AdvertisingEligibilityApi;
+use SapientPro\EbayAccountSDK\Configuration;
 use SapientPro\EbayAccountSDK\Models\SellerEligibilityMultiProgramResponse;
 use SapientPro\EbayAccountSDK\Models\SellerEligibilityResponse;
 use SapientPro\EbayAccountSDK\Enums\AdvertisingProgramEnum;

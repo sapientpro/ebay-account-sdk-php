@@ -5,6 +5,7 @@ namespace SapientPro\EbayAccountSDK\Client;
 use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Request;
 use SapientPro\EbayAccountSDK\Configuration;
+use SapientPro\EbayAccountSDK\Enums\RequestMethodEnum;
 use SapientPro\EbayAccountSDK\HeaderSelector;
 use SapientPro\EbayAccountSDK\Models\EbayModelInterface;
 
@@ -22,7 +23,7 @@ class EbayRequest
         array $queryParameters = null,
         array $headerParameters = null
     ): Request {
-        $parameters = $this->processParameters('GET', $queryParameters, $headerParameters);
+        $parameters = $this->processParameters(RequestMethodEnum::GET, $queryParameters, $headerParameters);
         $query = $parameters['query'];
         $headers = $parameters['headers'];
 
@@ -39,7 +40,7 @@ class EbayRequest
         array $queryParameters = null,
         array $headerParameters = null
     ): Request {
-        $parameters = $this->processParameters('POST', $queryParameters, $headerParameters);
+        $parameters = $this->processParameters(RequestMethodEnum::POST, $queryParameters, $headerParameters);
         $query = $parameters['query'];
         $headers = $parameters['headers'];
 
@@ -57,7 +58,7 @@ class EbayRequest
         array $queryParameters = null,
         array $headerParameters = null
     ): Request {
-        $parameters = $this->processParameters('PUT', $queryParameters, $headerParameters);
+        $parameters = $this->processParameters(RequestMethodEnum::PUT, $queryParameters, $headerParameters);
         $query = $parameters['query'];
         $headers = $parameters['headers'];
 
@@ -74,7 +75,7 @@ class EbayRequest
         array $queryParameters = null,
         array $headerParameters = null
     ): Request {
-        $parameters = $this->processParameters('DELETE', $queryParameters, $headerParameters);
+        $parameters = $this->processParameters(RequestMethodEnum::DELETE, $queryParameters, $headerParameters);
         $query = $parameters['query'];
         $headers = $parameters['headers'];
 
@@ -86,7 +87,7 @@ class EbayRequest
     }
 
     private function processParameters(
-        string $method,
+        RequestMethodEnum $method,
         array $queryParameters = null,
         array $headerParameters = null
     ): array {
@@ -106,22 +107,22 @@ class EbayRequest
         }
 
         $headers = match ($method) {
-            'GET' => $this->headerSelector->selectHeaders(
+            RequestMethodEnum::GET => $this->headerSelector->selectHeaders(
                 ['application/json'],
                 []
             ),
-            'POST' => $this->headerSelector->selectHeaders(
+            RequestMethodEnum::POST => $this->headerSelector->selectHeaders(
                 ['application/json'],
                 ['application/json']
             ),
-            'PUT' => $this->headerSelector->selectHeaders(
+            RequestMethodEnum::PUT => $this->headerSelector->selectHeaders(
                 [],
                 ['application/json']
             ),
-            'DELETE' => $this->headerSelector->selectHeaders(
+            RequestMethodEnum::DELETE => $this->headerSelector->selectHeaders(
                 [],
                 []
-            ),
+            )
         };
 
         // this endpoint requires OAuth (access token)
