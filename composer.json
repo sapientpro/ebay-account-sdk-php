@@ -1,5 +1,5 @@
 {
-    "name": "autopilot-internal/ebay-account-sdk",
+    "name": "sapientpro/ebay-account-sdk-php",
     "description": "eBay Account API",
     "keywords": [
         "ebay",
@@ -16,9 +16,7 @@
         "guzzlehttp/guzzle": "^7.3",
         "symfony/serializer": "^6.2",
         "symfony/property-access": "^6.2",
-        "phpdocumentor/reflection-docblock": "^5.3",
-        "nette/php-generator": "^4.0",
-        "league/flysystem": "^3.0"
+        "phpdocumentor/reflection-docblock": "^5.3"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",

@@ -6,8 +6,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use SapientPro\EbayAccountSDK\Client\EbayClient;
-use SapientPro\EbayAccountSDK\Client\Serializer;
 
 trait MocksClient
 {
