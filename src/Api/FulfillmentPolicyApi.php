@@ -26,30 +26,45 @@ use InvalidArgumentException;
  */
 class FulfillmentPolicyApi implements ApiInterface
 {
-    protected ClientInterface $client;
+    /** @ignore */
+    private EbayClient $ebayClient;
 
-    protected Configuration $config;
+    /** @ignore */
+    private EbayRequest $ebayRequest;
 
-    protected EbayClient $ebayClient;
+    /** @ignore */
+    private Configuration $config;
 
-    protected EbayRequest $ebayRequest;
+    /**
+     * @ignore
+     */
+    public function __construct(Configuration $config)
+    {
+        $this->config = $config;
 
-    public function __construct(
-        EbayClient $ebayClient = null,
-        EbayRequest $ebayRequest = null,
-        ClientInterface $client = null,
-        Configuration $config = null,
-    ) {
         $serializer = new Serializer();
-        $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
-        $this->ebayClient = $ebayClient ?: new EbayClient($this->client, $serializer);
-        $this->ebayRequest = $ebayRequest ?: new EbayRequest(new HeaderSelector(), $this->config, $serializer);
+        $client = new Client();
+
+        $this->ebayClient = new EbayClient($client, $serializer);
+        $this->ebayRequest = new EbayRequest(
+            new HeaderSelector(),
+            $this->config,
+            $serializer
+        );
     }
 
+    /**
+     * @ignore
+     */
     public function getConfig(): Configuration
     {
         return $this->config;
+    }
+
+    /** @ignore */
+    public function setEbayClient(EbayClient $ebayClient): void
+    {
+        $this->ebayClient = $ebayClient;
     }
 
     /**
@@ -102,42 +117,6 @@ class FulfillmentPolicyApi implements ApiInterface
             $body,
             $resourcePath
         );
-    }
-
-    /**
-     * Operation createFulfillmentPolicyAsync
-     *
-     * @param  FulfillmentPolicyRequest  $body  Request to create a seller account fulfillment policy. (required)
-     *
-     * @return PromiseInterface
-     * @throws InvalidArgumentException
-     */
-    public function createFulfillmentPolicyAsync(FulfillmentPolicyRequest $body): PromiseInterface
-    {
-        return $this->createFulfillmentPolicyAsyncWithHttpInfo($body)
-            ->then(
-                function ($response) {
-                    return $response['data'];
-                }
-            );
-    }
-
-    /**
-     * Operation createFulfillmentPolicyAsyncWithHttpInfo
-     *
-     *
-     *
-     * @param  FulfillmentPolicyRequest  $body  Request to create a seller account fulfillment policy. (required)
-     *
-     * @return PromiseInterface
-     * @throws InvalidArgumentException
-     */
-    public function createFulfillmentPolicyAsyncWithHttpInfo(FulfillmentPolicyRequest $body): PromiseInterface
-    {
-        $returnType = SetFulfillmentPolicyResponse::class;
-        $request = $this->createFulfillmentPolicyRequest($body);
-
-        return $this->ebayClient->sendAsync($request, $returnType);
     }
 
     /**

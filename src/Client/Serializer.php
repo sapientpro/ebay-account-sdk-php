@@ -40,6 +40,11 @@ class Serializer
         return $this->serializer->serialize($class, JsonEncoder::FORMAT);
     }
 
+    public function denormalize(array $data, string $type): ?EbayModelInterface
+    {
+        return $this->serializer->denormalize($data, $type);
+    }
+
     public static function toPathValue(string $value): string
     {
         return rawurlencode($value);

@@ -26,30 +26,45 @@ use InvalidArgumentException;
  */
 class PaymentPolicyApi implements ApiInterface
 {
-    protected ClientInterface $client;
+    /** @ignore */
+    private EbayClient $ebayClient;
 
-    protected Configuration $config;
+    /** @ignore */
+    private EbayRequest $ebayRequest;
 
-    protected EbayClient $ebayClient;
+    /** @ignore */
+    private Configuration $config;
 
-    protected EbayRequest $ebayRequest;
+    /**
+     * @ignore
+     */
+    public function __construct(Configuration $config)
+    {
+        $this->config = $config;
 
-    public function __construct(
-        EbayClient $ebayClient = null,
-        EbayRequest $ebayRequest = null,
-        ClientInterface $client = null,
-        Configuration $config = null,
-    ) {
         $serializer = new Serializer();
-        $this->client = $client ?: new Client();
-        $this->config = $config ?: new Configuration();
-        $this->ebayClient = $ebayClient ?: new EbayClient($this->client, $serializer);
-        $this->ebayRequest = $ebayRequest ?: new EbayRequest(new HeaderSelector(), $this->config, $serializer);
+        $client = new Client();
+
+        $this->ebayClient = new EbayClient($client, $serializer);
+        $this->ebayRequest = new EbayRequest(
+            new HeaderSelector(),
+            $this->config,
+            $serializer
+        );
     }
 
+    /**
+     * @ignore
+     */
     public function getConfig(): Configuration
     {
         return $this->config;
+    }
+
+    /** @ignore */
+    public function setEbayClient(EbayClient $ebayClient): void
+    {
+        $this->ebayClient = $ebayClient;
     }
 
     /**

@@ -9,15 +9,12 @@ namespace SapientPro\EbayAccountSDK;
  */
 class HeaderSelector
 {
-    public function selectHeadersForMultipart(array $accept): array
-    {
-        $headers = $this->selectHeaders($accept, []);
-
-        unset($headers['Content-Type']);
-
-        return $headers;
-    }
-
+    /**
+     * @param  string[]  $accept
+     * @param  string[]  $contentTypes
+     *
+     * @return array
+     */
     public function selectHeaders(array $accept, array $contentTypes): array
     {
         $headers = [];
@@ -33,15 +30,20 @@ class HeaderSelector
         return $headers;
     }
 
+    /**
+     * Return the header 'Accept' based on an array of Accept provided
+     *
+     * @param  string[]  $accept  Array of header
+     *
+     * @return string|null Accept (e.g. application/json)
+     */
     private function selectAcceptHeader(array $accept): ?string
     {
-        if (count($accept) === 0 || (count($accept) === 1 && $accept[0] === '')) {
+        if (empty($accept)) {
             return null;
-        } elseif (preg_grep("/application\/json/i", $accept)) {
-            return 'application/json';
-        } else {
-            return implode(',', $accept);
         }
+
+        return implode(',', $accept);
     }
 
     /**
@@ -53,12 +55,10 @@ class HeaderSelector
      */
     private function selectContentTypeHeader(array $contentType): string
     {
-        if (count($contentType) === 0 || (count($contentType) === 1 && $contentType[0] === '')) {
+        if (empty($contentType)) {
             return 'application/json';
-        } elseif (preg_grep("/application\/json/i", $contentType)) {
-            return 'application/json';
-        } else {
-            return implode(',', $contentType);
         }
+
+        return implode(',', $contentType);
     }
 }
