@@ -59,6 +59,48 @@ try {
 }
 ```
 
+## Creating Models
+
+Some SDK methods require `$body` variable as a parameter. It refers to a Model class that implements EbayModelInterface.
+There are several ways to create a Model class:
+
+### fromArray()
+You can create a Model class using fromArray() method.
+It will throw an exception if a property does not exist in the model class.
+
+If the model has a property of type that implements EbayModelInterface, you must create an instance of that class using fromArray() method.
+In this example, the property `price` is of type `ConvertedAmount` that also implements EbayModelInterface.
+
+```php
+Item::fromArray([
+    'price' => ConvertedAmount::fromArray([
+        'value' => '6.90',
+        'currency' => CurrencyCodeEnum::USD
+    )]
+])
+```
+### fromPlainArray()
+
+It is also possible to create a Model from plain associative array.
+The previous example can be rewritten as follows:
+
+```php
+Item::fromPlainArray([
+    'price' => [
+        'value' => '6.90',
+        'currency' => CurrencyCodeEnum::USD
+    ]
+])
+```
+
+### fromJson()
+
+It is also possible to create a Model from JSON string.
+
+```php
+Item::fromJson('{"price": {"value": "6.90", "currency": "USD"}}')
+```
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *https://api.ebay.com/sell/account/v1*
