@@ -1,13 +1,13 @@
-# EBay\Account\OnboardingApi
+# SapientPro\EbayAccountSDK\Api\OnboardingApi
 
 All URIs are relative to *https://api.ebay.com/sell/account/v1*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getPaymentsProgramOnboarding**](OnboardingApi.md#getpaymentsprogramonboarding) | **GET** /payments_program/{marketplace_id}/{payments_program_type}/onboarding | 
+| Method                                                                            | HTTP request                                                                  | Description |
+|-----------------------------------------------------------------------------------|-------------------------------------------------------------------------------|-------------|
+| [**getPaymentsProgramOnboarding**](OnboardingApi.md#getpaymentsprogramonboarding) | **GET** /payments_program/{marketplace_id}/{payments_program_type}/onboarding |             |
 
 # **getPaymentsProgramOnboarding**
-> \EBay\Account\Model\PaymentsProgramOnboardingResponse getPaymentsProgramOnboarding($marketplace_id, $payments_program_type)
+> getPaymentsProgramOnboarding(MarketplaceIdEnum $marketplaceId, PaymentsProgramType $paymentsProgramType = PaymentsProgramType::EBAY_PAYMENTS): PaymentsProgramOnboardingResponse
 
 
 
@@ -16,22 +16,23 @@ Method | HTTP request | Description
 ### Example
 ```php
 <?php
-require_once(__DIR__ . '/vendor/autoload.php');
+use SapientPro\EbayAccountSDK\Configuration;
+use SapientPro\EbayAccountSDK\Api\OnboardingApi;
+use SapientPro\EbayAccountSDK\Enums\PaymentsProgramType;
+use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 
 // Configure OAuth2 access token for authorization: api_auth
-$config = EBay\Account\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$apiInstance = new EBay\Account\Api\OnboardingApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
+$apiInstance = new OnboardingApi(
+    config: $config
 );
-$marketplace_id = "marketplace_id_example"; // string | The eBay marketplace ID associated with the onboarding status to retrieve.
-$payments_program_type = "payments_program_type_example"; // string | The type of payments program whose status is returned by the method.
 
 try {
-    $result = $apiInstance->getPaymentsProgramOnboarding($marketplace_id, $payments_program_type);
+    $result = $apiInstance->getPaymentsProgramOnboarding(
+        MarketplaceIdEnum::EBAY_US,
+        PaymentsProgramType::EBAY_PAYMENTS
+    );
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling OnboardingApi->getPaymentsProgramOnboarding: ', $e->getMessage(), PHP_EOL;
@@ -41,14 +42,14 @@ try {
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **marketplace_id** | **string**| The eBay marketplace ID associated with the onboarding status to retrieve. |
- **payments_program_type** | **string**| The type of payments program whose status is returned by the method. |
+| Name                    | Type                                                     | Description                                                                | Notes |
+|-------------------------|----------------------------------------------------------|----------------------------------------------------------------------------|-------|
+| **marketplaceId**       | **\SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum**   | The eBay marketplace ID associated with the onboarding status to retrieve. |       |
+| **paymentsProgramType** | **\SapientPro\EbayAccountSDK\Enums\PaymentsProgramType** | The type of payments program whose status is returned by the method.       |       |
 
 ### Return type
 
-[**\EBay\Account\Model\PaymentsProgramOnboardingResponse**](../Model/PaymentsProgramOnboardingResponse.md)
+[**\SapientPro\EbayAccountSDK\Models\PaymentsProgramOnboardingResponse**](../Model/PaymentsProgramOnboardingResponse.md)
 
 ### Authorization
 

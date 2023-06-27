@@ -1,13 +1,13 @@
-# EBay\Account\PrivilegeApi
+# SapientPro\EbayAccountSDK\Api\PrivilegeApi
 
 All URIs are relative to *https://api.ebay.com/sell/account/v1*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**getPrivileges**](PrivilegeApi.md#getprivileges) | **GET** /privilege | 
+| Method                                             | HTTP request       | Description |
+|----------------------------------------------------|--------------------|-------------|
+| [**getPrivileges**](PrivilegeApi.md#getprivileges) | **GET** /privilege |             |
 
 # **getPrivileges**
-> \EBay\Account\Model\SellingPrivileges getPrivileges()
+> getPrivileges(): SellingPrivileges
 
 
 
@@ -16,16 +16,14 @@ This method retrieves the seller's current set of privileges, including whether 
 ### Example
 ```php
 <?php
-require_once(__DIR__ . '/vendor/autoload.php');
+use SapientPro\EbayAccountSDK\Configuration;
+use SapientPro\EbayAccountSDK\Api\PrivilegeApi;
 
 // Configure OAuth2 access token for authorization: api_auth
-$config = EBay\Account\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+$config = Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
-$apiInstance = new EBay\Account\Api\PrivilegeApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
+$apiInstance = new PrivilegeApi(
+    config: $config
 );
 
 try {
@@ -42,7 +40,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**\EBay\Account\Model\SellingPrivileges**](../Model/SellingPrivileges.md)
+[**\SapientPro\EbayAccountSDK\Models\SellingPrivileges**](../Model/SellingPrivileges.md)
 
 ### Authorization
 
