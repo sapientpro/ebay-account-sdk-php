@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\CustomPolicyTypeEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The response payload for requests that return a list of custom policies.
@@ -18,6 +19,7 @@ class CompactCustomPolicyResponse implements EbayModelInterface
      * This value is automatically assigned by the system when the policy is created.
      * </span>
      */
+    #[Assert\Type('string')]
     public string $customPolicyId;
 
     /**
@@ -25,6 +27,7 @@ class CompactCustomPolicyResponse implements EbayModelInterface
      * This seller-defined string is displayed as a system-generated hyperlink pointing to detailed policy information.
      * Max length: 65
      */
+    #[Assert\Type('string')]
     public string $label;
 
     /**
@@ -32,6 +35,7 @@ class CompactCustomPolicyResponse implements EbayModelInterface
      * Names must be unique for policies assigned to the same seller, policy type, and eBay marketplace.
      * <span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span>Max length: 65
      */
+    #[Assert\Type('string')]
     public string $name;
 
     /** Specifies the type of Custom Policy being returned.
@@ -43,5 +47,6 @@ class CompactCustomPolicyResponse implements EbayModelInterface
      *
      * @var CustomPolicyTypeEnum
      */
+    #[Assert\Type(CustomPolicyTypeEnum::class)]
     public CustomPolicyTypeEnum $policyType;
 }

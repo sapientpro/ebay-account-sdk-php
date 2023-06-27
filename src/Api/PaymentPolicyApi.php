@@ -2,7 +2,6 @@
 
 namespace SapientPro\EbayAccountSDK\Api;
 
-use GuzzleHttp\Exception\GuzzleException;
 use SapientPro\EbayAccountSDK\ApiException;
 use SapientPro\EbayAccountSDK\Client\EbayClient;
 use SapientPro\EbayAccountSDK\Client\EbayRequest;
@@ -15,7 +14,6 @@ use SapientPro\EbayAccountSDK\Models\PaymentPolicyResponse;
 use SapientPro\EbayAccountSDK\Models\SetPaymentPolicyResponse;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
 
@@ -112,7 +110,7 @@ class PaymentPolicyApi implements ApiInterface
     {
         $resourcePath = '/payment_policy';
 
-        return $this->ebayRequest->postRequest($body, $resourcePath);
+        return $this->ebayRequest->postRequest($resourcePath, $body);
     }
 
     /**
@@ -197,10 +195,9 @@ class PaymentPolicyApi implements ApiInterface
      */
     public function getPaymentPoliciesWithHttpInfo(MarketplaceIdEnum $marketplaceId): array
     {
-        $returnType = PaymentPolicyResponse::class;
         $request = $this->getPaymentPoliciesRequest($marketplaceId);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: PaymentPolicyResponse::class);
     }
 
     /**
@@ -216,7 +213,7 @@ class PaymentPolicyApi implements ApiInterface
     protected function getPaymentPoliciesRequest(MarketplaceIdEnum $marketplaceId): Request
     {
         $resourcePath = '/payment_policy';
-        $queryParams['marketplace_id'] = Serializer::toQueryValue($marketplaceId->value);
+        $queryParams['marketplace_id'] = $marketplaceId->value;
 
         return $this->ebayRequest->getRequest($resourcePath, $queryParams);
     }
@@ -250,10 +247,9 @@ class PaymentPolicyApi implements ApiInterface
      */
     public function getPaymentPolicyWithHttpInfo(string $paymentPolicyId): array
     {
-        $returnType = PaymentPolicy::class;
         $request = $this->getPaymentPolicyRequest($paymentPolicyId);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: PaymentPolicy::class);
     }
 
     /**
@@ -310,14 +306,12 @@ class PaymentPolicyApi implements ApiInterface
      *
      * @return array of PaymentPolicy, HTTP status code, HTTP response headers (array of strings)
      * @throws ApiException on non-2xx response
-     * @throws GuzzleException
      */
     public function getPaymentPolicyByNameWithHttpInfo(MarketplaceIdEnum $marketplaceId, string $name): array
     {
-        $returnType = PaymentPolicy::class;
         $request = $this->getPaymentPolicyByNameRequest($marketplaceId, $name);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: PaymentPolicy::class);
     }
 
     /**
@@ -336,10 +330,13 @@ class PaymentPolicyApi implements ApiInterface
     protected function getPaymentPolicyByNameRequest(MarketplaceIdEnum $marketplaceId, string $name): Request
     {
         $resourcePath = '/payment_policy/get_by_policy_name';
-        $queryParams['marketplace_id'] = Serializer::toQueryValue($marketplaceId->value);
-        $queryParams['name'] = Serializer::toQueryValue($name);
 
-        return $this->ebayRequest->getRequest($resourcePath, $queryParams);
+        $queryParameters = [
+            'marketplace_id' => $marketplaceId->value,
+            'name' => $name,
+        ];
+
+        return $this->ebayRequest->getRequest($resourcePath, $queryParameters);
     }
 
     /**
@@ -363,18 +360,17 @@ class PaymentPolicyApi implements ApiInterface
      * Operation updatePaymentPolicyWithHttpInfo
      *
      * @param  PaymentPolicyRequest  $body  Payment policy request
-     * @param $paymentPolicyId
+     * @param string $paymentPolicyId
      *  This path parameter specifies the ID of the payment policy you want to update.
      *
      * @return array of SetPaymentPolicyResponse, HTTP status code, HTTP response headers (array of strings)
      * @throws ApiException on non-2xx response
      */
-    public function updatePaymentPolicyWithHttpInfo(PaymentPolicyRequest $body, $paymentPolicyId): array
+    public function updatePaymentPolicyWithHttpInfo(PaymentPolicyRequest $body, string $paymentPolicyId): array
     {
-        $returnType = SetPaymentPolicyResponse::class;
         $request = $this->updatePaymentPolicyRequest($body, $paymentPolicyId);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: SetPaymentPolicyResponse::class);
     }
 
     /**
@@ -396,6 +392,6 @@ class PaymentPolicyApi implements ApiInterface
             $resourcePath
         );
 
-        return $this->ebayRequest->putRequest($body, $resourcePath);
+        return $this->ebayRequest->putRequest($resourcePath, $body);
     }
 }

@@ -2,11 +2,16 @@
 
 namespace SapientPro\EbayAccountSDK\Models;
 
+use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * This type consists of the regionIncluded and regionExcluded arrays, which indicate the areas to where the seller does and doesn't ship.
  */
 class RegionSet implements EbayModelInterface
 {
+    use FillsModel;
+
     /**
      * An array of one or more regionName values that specify the areas to where a seller does not ship.
      * A regionExcluded list should only be set in the top-level shipToLocations container
@@ -19,6 +24,7 @@ class RegionSet implements EbayModelInterface
      * If this array is used in a createFulfillmentPolicy or updateFulfillmentPolicy request, it will be ignored.</span>
      * @var Region[]
      */
+    #[Assert\Type('array')]
     public array $regionExcluded;
 
     /**
@@ -29,5 +35,6 @@ class RegionSet implements EbayModelInterface
      * If this array is used in a createFulfillmentPolicy or updateFulfillmentPolicy request, it will be ignored.</span>
      * @var Region[]
      */
+    #[Assert\Type('array')]
     public array $regionIncluded;
 }

@@ -5,121 +5,113 @@ namespace SapientPro\EbayAccountSDK\Client;
 use GuzzleHttp\Psr7\Query;
 use GuzzleHttp\Psr7\Request;
 use SapientPro\EbayAccountSDK\Configuration;
-use SapientPro\EbayAccountSDK\Enums\RequestMethodEnum;
+use SapientPro\EbayAccountSDK\Enums\HttpMethodEnum;
 use SapientPro\EbayAccountSDK\HeaderSelector;
 use SapientPro\EbayAccountSDK\Models\EbayModelInterface;
 
 class EbayRequest
 {
     public function __construct(
-        private HeaderSelector $headerSelector,
-        private Configuration $config,
-        private Serializer $serializer
+        public HeaderSelector $headerSelector,
+        public Configuration $config,
+        public Serializer $serializer,
     ) {
     }
 
     public function getRequest(
         string $resourcePath,
-        array $queryParameters = null,
-        array $headerParameters = null
+        array $queryParameters = [],
+        array $headerParameters = [],
     ): Request {
-        $parameters = $this->processParameters(RequestMethodEnum::GET, $queryParameters, $headerParameters);
-        $query = $parameters['query'];
-        $headers = $parameters['headers'];
+        $query = $this->processParameters($queryParameters);
+        $headers = $this->processHeaders(HttpMethodEnum::GET, $headerParameters);
 
         return new Request(
-            'GET',
+            HttpMethodEnum::GET->value,
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers
         );
     }
 
     public function postRequest(
-        EbayModelInterface $body,
         string $resourcePath,
-        array $queryParameters = null,
-        array $headerParameters = null
+        EbayModelInterface $body = null,
+        array $queryParameters = [],
+        array $headerParameters = [],
     ): Request {
-        $parameters = $this->processParameters(RequestMethodEnum::POST, $queryParameters, $headerParameters);
-        $query = $parameters['query'];
-        $headers = $parameters['headers'];
+        $query = $this->processParameters($queryParameters);
+        $headers = $this->processHeaders(HttpMethodEnum::POST, $headerParameters, $body);
+        $serializedBody = $body ? $this->serializer->serialize($body) : null;
 
         return new Request(
-            'POST',
+            HttpMethodEnum::POST->value,
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
-            $this->serializer->serialize($body)
+            $serializedBody
         );
     }
 
     public function putRequest(
-        EbayModelInterface $body,
         string $resourcePath,
-        array $queryParameters = null,
-        array $headerParameters = null
+        EbayModelInterface $body = null,
+        array $queryParameters = [],
+        array $headerParameters = [],
     ): Request {
-        $parameters = $this->processParameters(RequestMethodEnum::PUT, $queryParameters, $headerParameters);
-        $query = $parameters['query'];
-        $headers = $parameters['headers'];
+        $query = $this->processParameters($queryParameters);
+        $headers = $this->processHeaders(HttpMethodEnum::PUT, $headerParameters, $body);
+        $serializedBody = $body ? $this->serializer->serialize($body) : null;
 
         return new Request(
-            'PUT',
+            HttpMethodEnum::PUT->value,
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
-            $this->serializer->serialize($body)
+            $serializedBody
         );
     }
 
     public function deleteRequest(
         string $resourcePath,
-        array $queryParameters = null,
-        array $headerParameters = null
+        array $queryParameters = [],
+        array $headerParameters = [],
     ): Request {
-        $parameters = $this->processParameters(RequestMethodEnum::DELETE, $queryParameters, $headerParameters);
-        $query = $parameters['query'];
-        $headers = $parameters['headers'];
+        $query = $this->processParameters($queryParameters);
+        $headers = $this->processHeaders(HttpMethodEnum::DELETE, $headerParameters);
 
         return new Request(
-            'DELETE',
+            HttpMethodEnum::DELETE->value,
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers
         );
     }
 
-    private function processParameters(
-        RequestMethodEnum $method,
-        array $queryParameters = null,
-        array $headerParameters = null
+    private function processParameters(array $queryParameters = []): string
+    {
+        $filteredParameters = $this->filterParameters($queryParameters);
+
+        return Query::build($filteredParameters);
+    }
+
+    private function processHeaders(
+        HttpMethodEnum $method,
+        array $headerParameters = [],
+        EbayModelInterface $body = null,
     ): array {
-        $queryParams = [];
-        $headerParams = [];
-
-        if (null !== $queryParameters) {
-            foreach ($queryParameters as $key => $parameter) {
-                $queryParams[$key] = Serializer::toQueryValue($parameter);
-            }
-        }
-
-        if (null !== $headerParameters) {
-            foreach ($headerParameters as $key => $parameter) {
-                $headerParams[$key] = $parameter;
-            }
-        }
+        $filteredParameters = $this->filterParameters($headerParameters);
 
         $headers = match ($method) {
-            RequestMethodEnum::GET => $this->headerSelector->selectHeaders(
+            HttpMethodEnum::GET => $this->headerSelector->selectHeaders(
                 ['application/json'],
                 []
             ),
-            RequestMethodEnum::POST => $this->headerSelector->selectHeaders(
+            HttpMethodEnum::POST => $this->headerSelector->selectHeaders(
                 ['application/json'],
-                ['application/json']
+                $body ? ['application/json'] : []
             ),
-            RequestMethodEnum::PUT => $this->headerSelector->selectHeaders(
+            HttpMethodEnum::PUT => $this->headerSelector->selectHeaders(
                 [],
                 ['application/json']
             ),
-            RequestMethodEnum::DELETE => $this->headerSelector->selectHeaders(
+            HttpMethodEnum::DELETE => $this->headerSelector->selectHeaders(
                 [],
                 []
             )
@@ -135,17 +127,14 @@ class EbayRequest
             $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
         }
 
-        $headers = array_merge(
-            $defaultHeaders,
-            $headerParams,
-            $headers
+        return array_merge($defaultHeaders, $filteredParameters, $headers);
+    }
+
+    private function filterParameters(array $parameters): array
+    {
+        return array_filter(
+            $parameters,
+            fn ($parameter) => null !== $parameter
         );
-
-        $query = Query::build($queryParams);
-
-        return [
-            'headers' => $headers,
-            'query' => $query
-        ];
     }
 }

@@ -12,7 +12,6 @@ use SapientPro\EbayAccountSDK\Models\PaymentsProgramOnboardingResponse;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use SapientPro\EbayAccountSDK\Enums\PaymentsProgramType;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 
 /**

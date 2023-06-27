@@ -1,6 +1,6 @@
 <?php
 
-namespace SapientPro\EbayAccountSDK\Models;
+namespace SapientPro\EbayAccountSDK\Models\Exceptions;
 
 use Exception;
 

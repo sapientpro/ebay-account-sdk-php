@@ -3,7 +3,6 @@
 namespace SapientPro\EbayAccountSDK\Api;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use SapientPro\EbayAccountSDK\ApiException;
 use SapientPro\EbayAccountSDK\Client\EbayClient;
@@ -90,10 +89,9 @@ class AdvertisingEligibilityApi implements ApiInterface
         MarketplaceIdEnum $xEbayCMarketplaceId,
         string $programTypes = null
     ): array {
-        $returnType = SellerEligibilityMultiProgramResponse::class;
         $request = $this->getAdvertisingEligibilityRequest($xEbayCMarketplaceId, $programTypes);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: SellerEligibilityMultiProgramResponse::class);
     }
 
     /**
@@ -106,11 +104,7 @@ class AdvertisingEligibilityApi implements ApiInterface
         string $programTypes = null
     ): Request {
         $resourcePath = '/advertising_eligibility';
-        $queryParams = null;
-
-        if ($programTypes !== null) {
-            $queryParams['program_types'] = Serializer::toQueryValue($programTypes);
-        }
+        $queryParams['program_types'] = $programTypes;
 
         return $this->ebayRequest->getRequest(
             $resourcePath,

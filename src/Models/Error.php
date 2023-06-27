@@ -2,11 +2,16 @@
 
 namespace SapientPro\EbayAccountSDK\Models;
 
+use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * A container that defines the elements of error and warning messages.
  */
 class Error implements EbayModelInterface
 {
+    use FillsModel;
+
     /**
      * The category type for this error or warning.
      * It is a string that can have one of three values:
@@ -26,46 +31,53 @@ class Error implements EbayModelInterface
      * such as authentication, syntactical errors, rate limiting or missing headers, bad HTTP header values, and so on.
      * </li></ul>
      */
-    public string $category;
+    #[Assert\Type('string')]
+    public ?string $category = null;
 
     /**
      * Name of the domain, or primary system, of the service or application where the error occurred.
      */
-    public string $domain;
+    #[Assert\Type('string')]
+    public ?string $domain = null;
 
     /**
      * A positive integer that uniquely identifies the specific error condition that occurred.
      * Your application can use error codes as identifiers in your customized error-handling algorithms.
      */
-    public int $errorId;
+    #[Assert\Type('int')]
+    public ?int $errorId = null;
 
     /**
      * Identifies specific request elements associated with the error, if any.
      * inputRefId's response is format specific.
      * For JSON, use <i>JSONPath</i> notation.
      *
-     * @var string[]
+     * @var string[]|null
      */
-    public array $inputRefIds;
+    #[Assert\Type('array')]
+    public ?array $inputRefIds = null;
 
     /**
      * A more detailed explanation of the error than given in the <code>message</code> error field.
      */
-    public string $longMessage;
+    #[Assert\Type('string')]
+    public ?string $longMessage = null;
 
     /**
      * Information on how to correct the problem, in the end user's terms and language where applicable.
      * Its value is at most 50 characters long.
      * If applicable, the value is localized in the end user's requested locale.
      */
-    public string $message;
+    #[Assert\Type('string')]
+    public ?string $message = null;
 
     /**
      * Identifies specific response elements associated with the error, if any.
      * Path format is the same as <code>inputRefId</code>.
      * @var string[]
      */
-    public array $outputRefIds;
+    #[Assert\Type('array')]
+    public ?array $outputRefIds = null;
 
     /**
      * This optional list of name/value pairs that contain context-specific <code>ErrorParameter</code> objects,
@@ -73,10 +85,12 @@ class Error implements EbayModelInterface
      * Each <code>ErrorParameter</code> object consists of two fields, a <code>name</code> and a <code>value</code>.
      * @var ErrorParameter[]
      */
-    public array $parameters;
+    #[Assert\Type('array')]
+    public ?array $parameters = null;
 
     /**
      * If present, indicates the subsystem in which the error occurred.
      */
-    public string $subdomain;
+    #[Assert\Type('string')]
+    public ?string $subdomain = null;
 }

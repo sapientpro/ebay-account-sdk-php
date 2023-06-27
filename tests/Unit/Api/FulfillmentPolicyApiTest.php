@@ -440,7 +440,7 @@ JSON;
         $this->assertTrue($expectedResponse == $result);
     }
 
-    private function createDefaultAmount(): EbayModelInterface
+    private function createDefaultAmount(): Amount
     {
         return Amount::fromArray([
             'currency' => CurrencyCodeEnum::USD,

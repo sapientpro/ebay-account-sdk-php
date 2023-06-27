@@ -14,7 +14,6 @@ use SapientPro\EbayAccountSDK\Models\SalesTaxBase;
 use SapientPro\EbayAccountSDK\Models\SalesTaxes;
 use SapientPro\EbayAccountSDK\Enums\CountryCodeEnum;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 
 /**
@@ -149,7 +148,7 @@ class SalesTaxApi implements ApiInterface
             $resourcePath
         );
 
-        return $this->ebayRequest->putRequest($body, $resourcePath);
+        return $this->ebayRequest->putRequest($resourcePath, $body);
     }
 
     /**
@@ -263,14 +262,12 @@ class SalesTaxApi implements ApiInterface
      *
      * @return array of SalesTax, HTTP status code, HTTP response headers
      * @throws ApiException on non-2xx response
-     * @throws GuzzleException
      */
     public function getSalesTaxWithHttpInfo(CountryCodeEnum $countryCode, string $jurisdictionId): array
     {
-        $returnType = SalesTax::class;
         $request = $this->getSalesTaxRequest($countryCode, $jurisdictionId);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: SalesTax::class);
     }
 
     /**
@@ -344,10 +341,9 @@ class SalesTaxApi implements ApiInterface
      */
     public function getSalesTaxesWithHttpInfo(CountryCodeEnum $countryCode): array
     {
-        $returnType = SalesTaxes::class;
         $request = $this->getSalesTaxesRequest($countryCode);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: SalesTaxes::class);
     }
 
     /**
@@ -367,7 +363,7 @@ class SalesTaxApi implements ApiInterface
     {
         $resourcePath = '/sales_tax';
 
-        $queryParams['country_code'] = Serializer::toQueryValue($countryCode->value);
+        $queryParams['country_code'] = $countryCode->value;
 
         return $this->ebayRequest->getRequest($resourcePath, $queryParams);
     }

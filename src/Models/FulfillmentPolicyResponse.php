@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The response payload for the getFulfillmentPolicies method.
@@ -18,37 +19,44 @@ class FulfillmentPolicyResponse implements EbayModelInterface
      * This array will be returned as empty if no fulfillment policies are defined for the specified marketplace.
      * @var FulfillmentPolicy[]
      */
+    #[Assert\Type('array')]
     public array $fulfillmentPolicies;
 
     /**
      * This field is for future use.
      */
-    public ?string $href;
+    #[Assert\Type('string')]
+    public ?string $href = null;
 
     /**
      * This field is for future use.
      */
-    public ?int $limit;
+    #[Assert\Type('int')]
+    public ?int $limit = null;
 
     /**
      * This field is for future use.
      */
-    public ?string $next;
+    #[Assert\Type('string')]
+    public ?string $next = null;
 
     /**
      * This field is for future use.
      */
-    public ?int $offset;
+    #[Assert\Type('int')]
+    public ?int $offset = null;
 
     /**
      * This field is for future use.
      */
-    public ?string $prev;
+    #[Assert\Type('string')]
+    public ?string $prev = null;
 
     /**
      * The total number of fulfillment policies retrieved in the result set.
      * If no fulfillment policies are defined for the specified marketplace,
      * this field is returned with a value of <code>0</code>.
      */
-    public ?int $total;
+    #[Assert\Type('int')]
+    public ?int $total = null;
 }

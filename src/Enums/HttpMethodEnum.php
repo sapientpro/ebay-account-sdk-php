@@ -2,7 +2,7 @@
 
 namespace SapientPro\EbayAccountSDK\Enums;
 
-enum RequestMethodEnum: string
+enum HttpMethodEnum: string
 {
     case GET = 'GET';
     case POST = 'POST';

@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\TimeDurationUnitEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A type used to specify a period of time using a specified time-measurement unit.
@@ -22,10 +23,12 @@ class TimeDuration implements EbayModelInterface
      * See TimeDurationUnitEnum for a complete list of possible time-measurement units.
      * For implementation help, refer to https://developer.ebay.com/api-docs/sell/account/types/ba:TimeDurationUnitEnum
      *
-     * @var TimeDurationUnitEnum
+     * @var TimeDurationUnitEnum|null
      */
-    public TimeDurationUnitEnum $unit;
+    #[Assert\Type(TimeDurationUnitEnum::class)]
+    public ?TimeDurationUnitEnum $unit = null;
 
     /** An integer that represents an amount of time, as measured by the time-measurement unit specified in the unit field. */
-    public int $value;
+    #[Assert\Type('int')]
+    public ?int $value = null;
 }

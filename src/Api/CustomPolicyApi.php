@@ -14,7 +14,6 @@ use SapientPro\EbayAccountSDK\Models\CustomPolicyRequest;
 use SapientPro\EbayAccountSDK\Models\CustomPolicyResponse;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 
 /**
@@ -117,8 +116,8 @@ class CustomPolicyApi implements ApiInterface
         $resourcePath = '/custom_policy/';
 
         return $this->ebayRequest->postRequest(
-            $body,
             $resourcePath,
+            $body,
             headerParameters: ['X-EBAY-C-MARKETPLACE-ID' => $xEbayCMarketplaceId->value]
         );
     }
@@ -320,8 +319,8 @@ class CustomPolicyApi implements ApiInterface
         );
 
         return $this->ebayRequest->putRequest(
-            $body,
             $resourcePath,
+            $body,
             headerParameters: ['X-EBAY-C-MARKETPLACE-ID' => $xEbayCMarketplaceId->value]
         );
     }

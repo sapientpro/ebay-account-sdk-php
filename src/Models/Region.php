@@ -3,6 +3,8 @@
 namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Enums\RegionTypeEnum;
+use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type is used to define specific shipping regions.
@@ -12,8 +14,11 @@ use SapientPro\EbayAccountSDK\Enums\RegionTypeEnum;
  */
 class Region implements EbayModelInterface
 {
+    use FillsModel;
+
     /** A string that indicates the name of a region, as defined by eBay. A "region" can be either a 'world region' (e.g., the "Middle East" or "Southeast Asia"), a country (represented with a two-letter country code), a state or province (represented with a two-letter code), or a special domestic region within a country. The GeteBayDetails call in the Trading API can be used to retrieve the world regions and special domestic regions within a specific country. To get these enumeration values, call GeteBayDetails with the DetailName value set to ExcludeShippingLocationDetails. */
-    public ?string $regionName;
+    #[Assert\Type('string')]
+    public ?string $regionName = null;
 
     /** Reserved for future use.
      * The region's type, which can be one of the following:
@@ -22,5 +27,6 @@ class Region implements EbayModelInterface
      *
      * @var RegionTypeEnum|null
      */
-    public ?RegionTypeEnum $regionType;
+    #[Assert\Type(RegionTypeEnum::class)]
+    public ?RegionTypeEnum $regionType = null;
 }

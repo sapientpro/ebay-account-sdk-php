@@ -2,7 +2,6 @@
 
 namespace SapientPro\EbayAccountSDK\Api;
 
-use GuzzleHttp\Exception\GuzzleException;
 use SapientPro\EbayAccountSDK\ApiException;
 use SapientPro\EbayAccountSDK\Client\EbayClient;
 use SapientPro\EbayAccountSDK\Client\EbayRequest;
@@ -13,7 +12,6 @@ use SapientPro\EbayAccountSDK\HeaderSelector;
 use SapientPro\EbayAccountSDK\Models\PaymentsProgramResponse;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 
 /**

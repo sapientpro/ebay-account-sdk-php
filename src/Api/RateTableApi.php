@@ -11,7 +11,6 @@ use SapientPro\EbayAccountSDK\HeaderSelector;
 use SapientPro\EbayAccountSDK\Models\RateTableResponse;
 use SapientPro\EbayAccountSDK\Enums\CountryCodeEnum;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 
 /**
@@ -100,10 +99,9 @@ class RateTableApi implements ApiInterface
      */
     public function getRateTablesWithHttpInfo(CountryCodeEnum $countryCode = null): array
     {
-        $returnType = RateTableResponse::class;
         $request = $this->getRateTablesRequest($countryCode);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: RateTableResponse::class);
     }
 
     /**
@@ -122,12 +120,7 @@ class RateTableApi implements ApiInterface
     protected function getRateTablesRequest(CountryCodeEnum $countryCode = null): Request
     {
         $resourcePath = '/rate_table';
-        $queryParams = null;
-
-        // query params
-        if (null !== $countryCode) {
-            $queryParams['country_code'] = Serializer::toQueryValue($countryCode->value);
-        }
+        $queryParams['country_code'] = $countryCode->value ?? null;
 
         return $this->ebayRequest->getRequest($resourcePath, $queryParams);
     }

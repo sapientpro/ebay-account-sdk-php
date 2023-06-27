@@ -9,7 +9,6 @@ use SapientPro\EbayAccountSDK\Client\Serializer;
 use SapientPro\EbayAccountSDK\Configuration;
 use SapientPro\EbayAccountSDK\HeaderSelector;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
 

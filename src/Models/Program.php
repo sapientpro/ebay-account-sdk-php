@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\ProgramTypeEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A seller program in to which a seller can opt-in.
@@ -18,5 +19,6 @@ class Program implements EbayModelInterface
      *
      * @var ProgramTypeEnum|null
      */
-    public ?ProgramTypeEnum $programType;
+    #[Assert\Type(ProgramTypeEnum::class)]
+    public ?ProgramTypeEnum $programType = null;
 }

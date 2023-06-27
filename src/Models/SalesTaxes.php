@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type is used by the root response of the getSalesTaxes method.
@@ -18,5 +19,6 @@ class SalesTaxes implements EbayModelInterface
      * but only an HTTP status code of <code>204 No Content</code>.
      * @var SalesTax[]
      */
+    #[Assert\Type('array')]
     public array $salesTaxes;
 }

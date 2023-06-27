@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\CategoryTypeEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The category type discerns whether the policy applies to motor vehicle listings,
@@ -21,7 +22,8 @@ class CategoryType implements EbayModelInterface
      * Do not include this field in any create or update method.
      * This field may be returned within the payload of a get method, but it can be ignored.
      */
-    public ?bool $default;
+    #[Assert\Type('bool')]
+    public ?bool $default = null;
 
     /**
      * The category type to which the policy applies (motor vehicles or non-motor vehicles).
@@ -31,5 +33,6 @@ class CategoryType implements EbayModelInterface
      *
      * @var CategoryTypeEnum
      */
+    #[Assert\Type(CategoryTypeEnum::class)]
     public CategoryTypeEnum $name;
 }

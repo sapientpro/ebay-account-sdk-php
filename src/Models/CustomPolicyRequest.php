@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CustomPolicyRequest implements EbayModelInterface
 {
@@ -12,12 +13,14 @@ class CustomPolicyRequest implements EbayModelInterface
      * Details of the seller's specific policy and terms for this policy.
      *  Max length: 15,000
      */
+    #[Assert\Type('string')]
     public string $description;
 
     /** Customer-facing label shown on View Item pages for items to which the policy applies.
      * This seller-defined string is displayed as a system-generated hyperlink pointing to detailed policy information.
      *  Max length: 65
      */
+    #[Assert\Type('string')]
     public string $label;
 
     /**
@@ -26,5 +29,6 @@ class CustomPolicyRequest implements EbayModelInterface
      * <span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span>
      * Max length: 65
      */
+    #[Assert\Type('string')]
     public string $name;
 }

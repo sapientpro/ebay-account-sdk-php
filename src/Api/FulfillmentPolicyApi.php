@@ -14,8 +14,6 @@ use SapientPro\EbayAccountSDK\Models\FulfillmentPolicyResponse;
 use SapientPro\EbayAccountSDK\Models\SetFulfillmentPolicyResponse;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
 
@@ -114,8 +112,8 @@ class FulfillmentPolicyApi implements ApiInterface
         $resourcePath = '/fulfillment_policy/';
 
         return $this->ebayRequest->postRequest(
-            $body,
-            $resourcePath
+            $resourcePath,
+            $body
         );
     }
 
@@ -221,7 +219,7 @@ class FulfillmentPolicyApi implements ApiInterface
     {
         $resourcePath = '/fulfillment_policy';
 
-        $queryParams['marketplace_id'] = Serializer::toQueryValue($marketplaceId->value);
+        $queryParams['marketplace_id'] = $marketplaceId->value;
 
         return $this->ebayRequest->getRequest($resourcePath, $queryParams);
     }
@@ -316,10 +314,9 @@ class FulfillmentPolicyApi implements ApiInterface
      */
     public function getFulfillmentPolicyByNameWithHttpInfo(MarketplaceIdEnum $marketplaceId, string $name): array
     {
-        $returnType = FulfillmentPolicy::class;
         $request = $this->getFulfillmentPolicyByNameRequest($marketplaceId, $name);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: FulfillmentPolicy::class);
     }
 
     /**
@@ -339,10 +336,12 @@ class FulfillmentPolicyApi implements ApiInterface
     {
         $resourcePath = '/fulfillment_policy/get_by_policy_name';
 
-        $queryParams['marketplace_id'] = Serializer::toQueryValue($marketplaceId->value);
-        $queryParams['name'] = Serializer::toQueryValue($name);
+        $queryParameters = [
+            'marketplace_id' => $marketplaceId->value,
+            'name' => $name,
+        ];
 
-        return $this->ebayRequest->getRequest($resourcePath, $queryParams);
+        return $this->ebayRequest->getRequest($resourcePath, $queryParameters);
     }
 
     /**
@@ -380,10 +379,9 @@ class FulfillmentPolicyApi implements ApiInterface
         FulfillmentPolicyRequest $body,
         string $fulfillmentPolicyId
     ): array {
-        $returnType = SetFulfillmentPolicyResponse::class;
         $request = $this->updateFulfillmentPolicyRequest($body, $fulfillmentPolicyId);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: SetFulfillmentPolicyResponse::class);
     }
 
     /**
@@ -408,6 +406,6 @@ class FulfillmentPolicyApi implements ApiInterface
             $resourcePath
         );
 
-        return $this->ebayRequest->putRequest($body, $resourcePath);
+        return $this->ebayRequest->putRequest($resourcePath, $body);
     }
 }

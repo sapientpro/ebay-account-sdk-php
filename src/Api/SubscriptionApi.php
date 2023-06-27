@@ -3,7 +3,6 @@
 namespace SapientPro\EbayAccountSDK\Api;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use SapientPro\EbayAccountSDK\ApiException;
 use SapientPro\EbayAccountSDK\Client\EbayClient;
@@ -106,15 +105,13 @@ class SubscriptionApi implements ApiInterface
         string $continuationToken = null
     ): Request {
         $resourcePath = '/subscription';
-        $queryParams = null;
 
-        if (null !== $limit) {
-            $queryParams['limit'] = Serializer::toQueryValue($limit);
-        }
-        if (null !== $continuationToken) {
-            $queryParams['continuation-token'] = Serializer::toQueryValue($continuationToken);
-        }
+        $queryParameters = [
+            'limit' => $limit,
+            'continuation-token' => $continuationToken,
+        ];
 
-        return $this->ebayRequest->getRequest($resourcePath, $queryParams);
+
+        return $this->ebayRequest->getRequest($resourcePath, $queryParameters);
     }
 }

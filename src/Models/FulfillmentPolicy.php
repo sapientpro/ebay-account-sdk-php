@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type is used by the fulfillmentPolicy response container,
@@ -18,6 +19,7 @@ class FulfillmentPolicy implements EbayModelInterface
      * or if it applies to non-motor vehicle listings.
      * @var CategoryType[]
      */
+    #[Assert\Type('array')]
     public array $categoryTypes;
 
     /**
@@ -26,18 +28,21 @@ class FulfillmentPolicy implements EbayModelInterface
      * This field is returned if set for the policy.
      * Max length: 250
      */
-    public ?string $description;
+    #[Assert\Type('string')]
+    public ?string $description = null;
 
     /**
      * If returned as <code>true</code>, the seller offers freight shipping.
      * Freight shipping can be used for large items over 150 lbs.
      */
+    #[Assert\Type('bool')]
     public bool $freightShipping = false;
 
     /**
      * A unique eBay-assigned ID for the fulfillment policy.
      * This ID is generated when the policy is created.
      */
+    #[Assert\Type('string')]
     public string $fulfillmentPolicyId;
 
     /**
@@ -56,6 +61,7 @@ class FulfillmentPolicy implements EbayModelInterface
      * A US seller who is opted in to eBay International Shipping
      * can also specify individual international shipping service options for a Fulfillment business policy.</span>
      */
+    #[Assert\Type('bool')]
     public bool $globalShipping = false;
 
     /**
@@ -66,11 +72,13 @@ class FulfillmentPolicy implements EbayModelInterface
      *
      * @var TimeDuration|null
      */
-    public ?TimeDuration $handlingTime;
+    #[Assert\Type(TimeDuration::class)]
+    public ?TimeDuration $handlingTime = null;
 
     /**
      * If returned as <code>true</code>, local pickup is available for this policy.
      */
+    #[Assert\Type('bool')]
     public bool $localPickup = false;
 
     /**
@@ -79,6 +87,7 @@ class FulfillmentPolicy implements EbayModelInterface
      *
      * @var MarketplaceIdEnum
      */
+    #[Assert\Type(MarketplaceIdEnum::class)]
     public MarketplaceIdEnum $marketplaceId;
 
     /**
@@ -86,12 +95,14 @@ class FulfillmentPolicy implements EbayModelInterface
      * Names must be unique for policies assigned to the same marketplace.
      * Max length: 64
      */
+    #[Assert\Type('string')]
     public string $name;
 
     /**
      * If returned as <code>true</code>, the seller offers the "Click and Collect" option.
      * Currently, "Click and Collect" is available only to large retail merchants the eBay AU and UK marketplaces.
      */
+    #[Assert\Type('bool')]
     public bool $pickupDropOff = false;
 
     /**
@@ -101,7 +112,8 @@ class FulfillmentPolicy implements EbayModelInterface
      * <p>A separate ShippingServices object is used to specify cost and other details for every available domestic and international shipping service option. </p>
      * @var ShippingOption[]
      */
-    public ?array $shippingOptions;
+    #[Assert\Type('array')]
+    public ?array $shippingOptions = null;
 
     /**
      * This container consists of the regionIncluded and regionExcluded containers,
@@ -110,5 +122,6 @@ class FulfillmentPolicy implements EbayModelInterface
      *
      * @var RegionSet|null
      */
-    public ?RegionSet $shipToLocations;
+    #[Assert\Type(RegionSet::class)]
+    public ?RegionSet $shipToLocations = null;
 }

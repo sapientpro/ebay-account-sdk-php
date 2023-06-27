@@ -11,7 +11,6 @@ use SapientPro\EbayAccountSDK\HeaderSelector;
 use SapientPro\EbayAccountSDK\Models\Program;
 use SapientPro\EbayAccountSDK\Models\Programs;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
 
@@ -88,10 +87,9 @@ class ProgramApi implements ApiInterface
      */
     public function getOptedInProgramsWithHttpInfo(): array
     {
-        $returnType = Programs::class;
         $request = $this->getOptedInProgramsRequest();
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: Programs::class);
     }
 
     /**
@@ -149,7 +147,7 @@ class ProgramApi implements ApiInterface
     {
         $resourcePath = '/program/opt_in';
 
-        return $this->ebayRequest->postRequest($body, $resourcePath);
+        return $this->ebayRequest->postRequest($resourcePath, $body);
     }
 
     /**
@@ -193,6 +191,6 @@ class ProgramApi implements ApiInterface
     {
         $resourcePath = '/program/opt_out';
 
-        return $this->ebayRequest->postRequest($body, $resourcePath);
+        return $this->ebayRequest->postRequest($resourcePath, $body);
     }
 }

@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This root container defines a seller's fulfillment policy for a specific marketplace and category group.
@@ -19,6 +20,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      *
      * @var CategoryType[]
      */
+    #[Assert\Type('array')]
     public array $categoryTypes;
 
     /**
@@ -26,6 +28,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      * This description is only for the seller's use, and is not exposed on any eBay pages.
      * Max length: 250
      */
+    #[Assert\Type('string')]
     public ?string $description;
 
     /**
@@ -33,6 +36,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      * Freight shipping can be used for large items over 150 lbs.
      * Default: false
      */
+    #[Assert\Type('bool')]
     public bool $freightShipping = false;
 
     /**
@@ -55,6 +59,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      * </span>
      * <p>Default: false</p>
      */
+    #[Assert\Type('bool')]
     public bool $globalShipping = false;
 
     /**
@@ -71,6 +76,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      * </p> <span class="tablenote">Note:  Top-Rated sellers must offer same-day or one-day handling for a listing in order for that listing to receive a Top Rated Plus seal on the View Item or Search Results pages.
      * To offer zero-day or one-day handling, set field to '0' or '1', respectively.</span>
      */
+    #[Assert\Type('object')]
     public ?TimeDuration $handlingTime;
 
     /**
@@ -78,6 +84,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      * It is possible for the seller to make local pickup and some shipping service options available to the buyer.With local pickup, the buyer and seller make arrangements for pickup time and location.
      * Default: <code>false</code>
      */
+    #[Assert\Type('bool')]
     public bool $localPickup = false;
 
     /**
@@ -86,6 +93,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      *
      * @var MarketplaceIdEnum
      */
+    #[Assert\Type(MarketplaceIdEnum::class)]
     public MarketplaceIdEnum $marketplaceId;
 
     /**
@@ -93,6 +101,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      * Names must be unique for policies assigned to the same marketplace.
      * Max length: 64
      */
+    #[Assert\Type('string')]
     public string $name;
 
     /**
@@ -110,6 +119,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      * </li></ul><p>When a merchant successfully lists an item with Click and Collect, prospective buyers within a reasonable distance from one of the merchant's stores (that has stock available) will see the "Available for Click and Collect" option on the listing, along with information on the closest store that has the item.</p>
      * Default: false
      */
+    #[Assert\Type('bool')]
     public bool $pickupDropOff = false;
 
     /**
@@ -121,6 +131,7 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      * <p>A separate ShippingServices object will be used to specify cost and other details for every available domestic and international shipping service option. </p>
      * @var ShippingOption[]|null
      */
+    #[Assert\Type('array')]
     public ?array $shippingOptions;
 
     /**
@@ -128,5 +139,6 @@ class FulfillmentPolicyRequest implements EbayModelInterface
      *
      * @var RegionSet|null
      */
+    #[Assert\Type(RegionSet::class)]
     public ?RegionSet $shipToLocations;
 }

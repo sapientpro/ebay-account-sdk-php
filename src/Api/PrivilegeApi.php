@@ -10,7 +10,6 @@ use SapientPro\EbayAccountSDK\Configuration;
 use SapientPro\EbayAccountSDK\HeaderSelector;
 use SapientPro\EbayAccountSDK\Models\SellingPrivileges;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 
 /**
@@ -84,10 +83,9 @@ class PrivilegeApi implements ApiInterface
      */
     public function getPrivilegesWithHttpInfo(): array
     {
-        $returnType = SellingPrivileges::class;
         $request = $this->getPrivilegesRequest();
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: SellingPrivileges::class);
     }
 
     /**

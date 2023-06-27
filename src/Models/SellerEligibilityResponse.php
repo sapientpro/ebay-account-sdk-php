@@ -6,6 +6,7 @@ use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\AdvertisingProgramEnum;
 use SapientPro\EbayAccountSDK\Enums\SellerEligibilityEnum;
 use SapientPro\EbayAccountSDK\Enums\SellerIneligibleReasonEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A type that is used to provide the seller's eligibility status for an eBay advertising program.
@@ -21,6 +22,7 @@ class SellerEligibilityResponse implements EbayModelInterface
      *
      * @var AdvertisingProgramEnum
      */
+    #[Assert\Type(AdvertisingProgramEnum::class)]
     public AdvertisingProgramEnum $programType;
 
     /**
@@ -31,7 +33,8 @@ class SellerEligibilityResponse implements EbayModelInterface
      *
      * @var SellerIneligibleReasonEnum|null
      */
-    public ?SellerIneligibleReasonEnum $reason;
+    #[Assert\Type(SellerIneligibleReasonEnum::class)]
+    public ?SellerIneligibleReasonEnum $reason = null;
 
     /**
      * The seller elibibilty status for the specified eBay advertising program.
@@ -40,5 +43,6 @@ class SellerEligibilityResponse implements EbayModelInterface
      *
      * @var SellerEligibilityEnum
      */
+    #[Assert\Type(SellerEligibilityEnum::class)]
     public SellerEligibilityEnum $status;
 }

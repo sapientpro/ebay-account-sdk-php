@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\CurrencyCodeEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A complex type that describes the value of a monetary amount as represented by a global currency.
@@ -20,13 +21,15 @@ class Amount implements EbayModelInterface
      * Default: The default currency of the eBay marketplace that hosts the listing.
      * For implementation help, refer to https://developer.ebay.com/api-docs/sell/account/types/ba:CurrencyCodeEnum
      *
-     * @var CurrencyCodeEnum
+     * @var CurrencyCodeEnum|null
      */
-    public CurrencyCodeEnum $currency;
+    #[Assert\Type(CurrencyCodeEnum::class)]
+    public ?CurrencyCodeEnum $currency = null;
 
     /**
      * The monetary amount in the specified currency.
-     * @var string
+     * @var string|null
      */
-    public string $value;
+    #[Assert\Type('string')]
+    public ?string $value = null;
 }

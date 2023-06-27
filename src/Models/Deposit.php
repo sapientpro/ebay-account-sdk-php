@@ -3,6 +3,7 @@
 namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type is used to specify/indicate that an initial deposit is required for a motor vehicle listing.
@@ -19,7 +20,8 @@ class Deposit implements EbayModelInterface
      *
      * @var Amount|null
      */
-    public ?Amount $amount;
+    #[Assert\Type(Amount::class)]
+    public ?Amount $amount = null;
 
     /**
      * This value indicates the number of hours that the buyer has (after they commit to buy) to pay the initial deposit on a motor vehicle.
@@ -31,11 +33,13 @@ class Deposit implements EbayModelInterface
      *
      * @var TimeDuration|null
      */
-    public ?TimeDuration $dueIn;
+    #[Assert\Type(TimeDuration::class)]
+    public ?TimeDuration $dueIn = null;
 
     /**
      * This array is no longer applicable and should not be used since eBay now manages the electronic payment options available to buyers to pay the deposit.
-     * @var PaymentMethod[]
+     * @var PaymentMethod[]|null
      */
-    public array $paymentMethods;
+    #[Assert\Type('array')]
+    public ?array $paymentMethods = null;
 }

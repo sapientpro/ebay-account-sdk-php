@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\CustomPolicyTypeEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type is used by the request payload of the createCustomPolicy method
@@ -17,6 +18,7 @@ class CustomPolicyCreateRequest implements EbayModelInterface
      * Details of the seller's specific policy and terms for this policy.
      * Max length: 15,000
      */
+    #[Assert\Type('string')]
     public string $description;
 
     /**
@@ -24,6 +26,7 @@ class CustomPolicyCreateRequest implements EbayModelInterface
      * This seller-defined string is displayed as a system-generated hyperlink pointing to detailed policy information.
      * Max length: 65
      */
+    #[Assert\Type('string')]
     public string $label;
 
     /**
@@ -32,6 +35,7 @@ class CustomPolicyCreateRequest implements EbayModelInterface
      * <span class="tablenote"><strong>Note:</strong> This field is visible only to the seller. </span>
      * Max length: 65
      */
+    #[Assert\Type('string')]
     public string $name;
 
     /**
@@ -44,5 +48,6 @@ class CustomPolicyCreateRequest implements EbayModelInterface
      *
      * @var CustomPolicyTypeEnum
      */
+    #[Assert\Type(CustomPolicyTypeEnum::class)]
     public CustomPolicyTypeEnum $policyType;
 }

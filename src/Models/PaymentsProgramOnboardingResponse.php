@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\PaymentsProgramOnboardingStatus;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Type used by the payments program onboarding response
@@ -19,6 +20,7 @@ class PaymentsProgramOnboardingResponse implements EbayModelInterface
      *
      * @var PaymentsProgramOnboardingStatus
      */
+    #[Assert\Type(PaymentsProgramOnboardingStatus::class)]
     public PaymentsProgramOnboardingStatus $onboardingStatus;
 
     /**
@@ -30,5 +32,6 @@ class PaymentsProgramOnboardingResponse implements EbayModelInterface
      * The step names are returned in sequential order.
      * @var PaymentsProgramOnboardingSteps[]
      */
+    #[Assert\Type('array')]
     public array $steps;
 }

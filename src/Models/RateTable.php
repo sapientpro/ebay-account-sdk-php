@@ -5,6 +5,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\CountryCodeEnum;
 use SapientPro\EbayAccountSDK\Enums\ShippingOptionTypeEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type is used to provide details about each shipping rate table that is returned in the getRateTables response.
@@ -19,6 +20,7 @@ class RateTable implements EbayModelInterface
      *
      * @var CountryCodeEnum
      */
+    #[Assert\Type(CountryCodeEnum::class)]
     public CountryCodeEnum $countryCode;
 
     /**
@@ -29,11 +31,14 @@ class RateTable implements EbayModelInterface
      *
      * @var ShippingOptionTypeEnum
      */
+    #[Assert\Type(ShippingOptionTypeEnum::class)]
     public ShippingOptionTypeEnum $locality;
 
     /** The seller-defined name for the shipping rate table. */
+    #[Assert\Type('string')]
     public string $name;
 
     /** A unique eBay-assigned ID for a seller's shipping rate table. These rateTableId values are used to associate shipping rate tables to fulfillment business policies or directly to listings through an add/revise/relist call in the Trading API. */
+    #[Assert\Type('string')]
     public string $rateTableId;
 }

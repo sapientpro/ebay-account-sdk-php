@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This root container defines a seller's payment business policy for a specific marketplace and category group.
@@ -18,6 +19,7 @@ class PaymentPolicyRequest implements EbayModelInterface
      * or if it applies to non-motor vehicle listings.
      * @var CategoryType[]
      */
+    #[Assert\Type('array')]
     public array $categoryTypes;
 
     /**
@@ -32,10 +34,12 @@ class PaymentPolicyRequest implements EbayModelInterface
      *
      * @var Deposit|null
      */
-    public ?Deposit $deposit;
+    #[Assert\Type(Deposit::class)]
+    public ?Deposit $deposit = null;
 
     /** A seller-defined description of the payment business policy. This description is only for the seller's use, and is not exposed on any eBay pages.  Max length: 250 */
-    public ?string $description;
+    #[Assert\Type('string')]
+    public ?string $description = null;
 
     /**
      * This container is used to specify the number of days that a buyer has to make their full payment to the seller
@@ -58,9 +62,11 @@ class PaymentPolicyRequest implements EbayModelInterface
      *
      * @var TimeDuration|null
      */
-    public ?TimeDuration $fullPaymentDueIn;
+    #[Assert\Type(TimeDuration::class)]
+    public ?TimeDuration $fullPaymentDueIn = null;
 
     /** This field should be included and set to <code>true</code> if the seller wants to require immediate payment from the buyer for: <ul><li>A fixed-price item</li><li>An auction item where the buyer is using the 'Buy it Now' option</li><li>A deposit for a motor vehicle listing</li></ul>Default: False */
+    #[Assert\Type('bool')]
     public bool $immediatePay = false;
 
     /**
@@ -69,13 +75,16 @@ class PaymentPolicyRequest implements EbayModelInterface
      *
      * @var MarketplaceIdEnum
      */
+    #[Assert\Type(MarketplaceIdEnum::class)]
     public MarketplaceIdEnum $marketplaceId;
 
     /** A seller-defined name for this payment business policy. Names must be unique for policies assigned to the same marketplace.Max length: 64 */
+    #[Assert\Type('string')]
     public string $name;
 
     /** <p class="tablenote">Note: DO NOT USE THIS FIELD. Payment instructions are no longer supported by payment business policies.</p>A free-form string field that allows sellers to add detailed payment instructions to their listings. */
-    public ?string $paymentInstructions;
+    #[Assert\Type('string')]
+    public ?string $paymentInstructions = null;
 
     /**
      * <p class="tablenote">Note: This field applies only when the seller needs to specify one or more offline payment methods.
@@ -83,5 +92,6 @@ class PaymentPolicyRequest implements EbayModelInterface
      * This array is used to specify one or more offline payment methods that will be accepted for payment that occurs off of eBay's platform.
      * @var PaymentMethod[]
      */
-    public ?array $paymentMethods;
+    #[Assert\Type('array')]
+    public ?array $paymentMethods = null;
 }

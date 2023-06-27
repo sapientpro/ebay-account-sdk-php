@@ -5,6 +5,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\ReturnMethodEnum;
 use SapientPro\EbayAccountSDK\Enums\ReturnShippingCostPayerEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type defines the fields for a seller's international return policy.
@@ -26,7 +27,8 @@ class InternationalReturnOverrideType implements EbayModelInterface
      *
      * @var ReturnMethodEnum|null
      */
-    public ?ReturnMethodEnum $returnMethod;
+    #[Assert\Type(ReturnMethodEnum::class)]
+    public ?ReturnMethodEnum $returnMethod = null;
 
     /**
      * This container indicates the number of calendar days that the buyer has to return an item.
@@ -43,10 +45,12 @@ class InternationalReturnOverrideType implements EbayModelInterface
      *
      * @var TimeDuration|null
      */
-    public ?TimeDuration $returnPeriod;
+    #[Assert\Type(TimeDuration::class)]
+    public ?TimeDuration $returnPeriod = null;
 
     /** If set to <code>true</code>, the seller accepts international returns. If set to <code>false</code>, the seller does not accept international returns.  This field is conditionally required if the seller chooses to have a separate international return policy. */
-    public ?bool $returnsAccepted;
+    #[Assert\Type('bool')]
+    public ?bool $returnsAccepted = null;
 
     /**
      * This field indicates who is responsible for paying for the shipping charges for returned items.
@@ -60,5 +64,6 @@ class InternationalReturnOverrideType implements EbayModelInterface
      *
      * @var ReturnShippingCostPayerEnum|null
      */
-    public ?ReturnShippingCostPayerEnum $returnShippingCostPayer;
+    #[Assert\Type(ReturnShippingCostPayerEnum::class)]
+    public ?ReturnShippingCostPayerEnum $returnShippingCostPayer = null;
 }

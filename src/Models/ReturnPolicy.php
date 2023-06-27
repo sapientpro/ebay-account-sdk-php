@@ -7,6 +7,7 @@ use SapientPro\EbayAccountSDK\Enums\ReturnShippingCostPayerEnum;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
 use SapientPro\EbayAccountSDK\Enums\RefundMethodEnum;
 use SapientPro\EbayAccountSDK\Enums\ReturnMethodEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type is used by the returnPolicy response container,
@@ -24,13 +25,16 @@ class ReturnPolicy implements EbayModelInterface
      * </span>
      * @var CategoryType[]
      */
+    #[Assert\Type('array')]
     public array $categoryTypes;
 
     /** A seller-defined description of the return business policy. This description is only for the seller's use, and is not exposed on any eBay pages.  Max length: 250 */
-    public ?string $description;
+    #[Assert\Type('string')]
+    public ?string $description = null;
 
     /** <p class="tablenote"><span  style="color: #dd1e31;">Important!</span> This field is deprecated, since eBay no longer supports extended holiday returns. Any value supplied in this field is neither read nor returned.</p> */
-    public ?bool $extendedHolidayReturnsOffered;
+    #[Assert\Type('bool')]
+    public ?bool $extendedHolidayReturnsOffered = null;
 
     /**
      * This container shows the seller's international return policy settings.
@@ -42,7 +46,8 @@ class ReturnPolicy implements EbayModelInterface
      *
      * @var InternationalReturnOverrideType|null
      */
-    public ?InternationalReturnOverrideType $internationalOverride;
+    #[Assert\Type(InternationalReturnOverrideType::class)]
+    public ?InternationalReturnOverrideType $internationalOverride = null;
 
     /**
      * The ID of the eBay marketplace to which this return business policy applies.
@@ -50,9 +55,11 @@ class ReturnPolicy implements EbayModelInterface
      *
      * @var MarketplaceIdEnum
      */
+    #[Assert\Type(MarketplaceIdEnum::class)]
     public MarketplaceIdEnum $marketplaceId;
 
     /** A seller-defined name for this payment business policy. Names must be unique for policies assigned to the same marketplace.Max length: 64 */
+    #[Assert\Type('string')]
     public string $name;
 
     /**
@@ -63,13 +70,16 @@ class ReturnPolicy implements EbayModelInterface
      *
      * @var RefundMethodEnum
      */
+    #[Assert\Type(RefundMethodEnum::class)]
     public RefundMethodEnum $refundMethod;
 
     /** <p class="tablenote"><span  style="color: #dd1e31;">Important!</span> This field is deprecated, since eBay no longer allows sellers to charge a restocking fee for buyer remorse returns. If this field is included, it is ignored and it is no longer returned.</p> */
-    public ?string $restockingFeePercentage;
+    #[Assert\Type('string')]
+    public ?string $restockingFeePercentage = null;
 
     /** This text-based field provides more details on seller-specified return instructions. This field is only returned if set for the return business policy. <p class="tablenote"><span  style="color: #dd1e31;">Important!</span> This field is no longer supported on many eBay marketplaces. To see if a marketplace and eBay category does support this field, call <a href="/api-docs/sell/metadata/resources/marketplace/methods/getReturnPolicies">getReturnPolicies</a> method of the Metadata API. Then you will look for the policyDescriptionEnabled field with a value of <code>true</code> for the eBay category.</span></p>Max length: 5000 (8000 for DE) */
-    public ?string $returnInstructions;
+    #[Assert\Type('string')]
+    public ?string $returnInstructions = null;
 
     /**
      * This field is only returned if the seller is willing to offer
@@ -78,7 +88,8 @@ class ReturnPolicy implements EbayModelInterface
      *
      * @var ReturnMethodEnum|null
      */
-    public ?ReturnMethodEnum $returnMethod;
+    #[Assert\Type(ReturnMethodEnum::class)]
+    public ?ReturnMethodEnum $returnMethod = null;
 
     /**
      * This container indicates the number of calendar days that the buyer has to return an item.
@@ -91,12 +102,15 @@ class ReturnPolicy implements EbayModelInterface
      *
      * @var TimeDuration|null
      */
-    public ?TimeDuration $returnPeriod;
+    #[Assert\Type(TimeDuration::class)]
+    public ?TimeDuration $returnPeriod = null;
 
     /** A unique eBay-assigned ID for a return business policy. This ID is generated when the policy is created. */
+    #[Assert\Type('string')]
     public string $returnPolicyId;
 
     /** If this field is returned as <code>true</code>, the seller accepts returns. <span class="tablenote"><strong>Note:</strong>Top-Rated sellers must accept item returns and the handlingTime should be set to zero days or one day for a listing to receive a Top-Rated Plus badge on the View Item or search result pages. For more information on eBay's Top-Rated seller program, see <a href="https://pages.ebay.com/help/sell/top-rated.html ">Becoming a Top Rated Seller and qualifying for Top Rated Plus benefits</a>.</span> */
+    #[Assert\Type('bool')]
     public bool $returnsAccepted;
 
     /**
@@ -110,5 +124,6 @@ class ReturnPolicy implements EbayModelInterface
      *
      * @var ReturnShippingCostPayerEnum
      */
+    #[Assert\Type(ReturnShippingCostPayerEnum::class)]
     public ReturnShippingCostPayerEnum $returnShippingCostPayer;
 }

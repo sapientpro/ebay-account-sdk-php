@@ -7,10 +7,10 @@ use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer as SymfonySerializer;
 
 class Serializer
@@ -37,7 +37,9 @@ class Serializer
 
     public function serialize(EbayModelInterface $class): string
     {
-        return $this->serializer->serialize($class, JsonEncoder::FORMAT);
+        return $this->serializer->serialize($class, JsonEncoder::FORMAT, [
+            AbstractObjectNormalizer::SKIP_NULL_VALUES => true
+        ]);
     }
 
     public function denormalize(array $data, string $type): ?EbayModelInterface
@@ -48,14 +50,5 @@ class Serializer
     public static function toPathValue(string $value): string
     {
         return rawurlencode($value);
-    }
-
-    public static function toQueryValue(array|string $object): string
-    {
-        if (is_array($object)) {
-            return implode(',', $object);
-        }
-
-        return $object;
     }
 }

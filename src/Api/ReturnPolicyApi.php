@@ -14,7 +14,6 @@ use SapientPro\EbayAccountSDK\Models\ReturnPolicyRequest;
 use SapientPro\EbayAccountSDK\Models\ReturnPolicyResponse;
 use SapientPro\EbayAccountSDK\Models\SetReturnPolicyResponse;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use InvalidArgumentException;
 
@@ -93,10 +92,9 @@ class ReturnPolicyApi implements ApiInterface
      */
     public function createReturnPolicyWithHttpInfo(ReturnPolicyRequest $body): array
     {
-        $returnType = SetReturnPolicyResponse::class;
         $request = $this->createReturnPolicyRequest($body);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: SetReturnPolicyResponse::class);
     }
 
     /**
@@ -111,7 +109,7 @@ class ReturnPolicyApi implements ApiInterface
     {
         $resourcePath = '/return_policy';
 
-        return $this->ebayRequest->postRequest($body, $resourcePath);
+        return $this->ebayRequest->postRequest($resourcePath, $body);
     }
 
     /**
@@ -196,10 +194,9 @@ class ReturnPolicyApi implements ApiInterface
      */
     public function getReturnPoliciesWithHttpInfo(MarketplaceIdEnum $marketplaceId): array
     {
-        $returnType = ReturnPolicyResponse::class;
         $request = $this->getReturnPoliciesRequest($marketplaceId);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: ReturnPolicyResponse::class);
     }
 
     /**
@@ -216,7 +213,7 @@ class ReturnPolicyApi implements ApiInterface
     {
         $resourcePath = '/return_policy';
 
-        $queryParams['marketplace_id'] = Serializer::toQueryValue($marketplaceId->value);
+        $queryParams['marketplace_id'] = $marketplaceId->value;
 
         return $this->ebayRequest->getRequest($resourcePath, $queryParams);
     }
@@ -250,10 +247,9 @@ class ReturnPolicyApi implements ApiInterface
      */
     public function getReturnPolicyWithHttpInfo(string $returnPolicyId): array
     {
-        $returnType = ReturnPolicy::class;
         $request = $this->getReturnPolicyRequest($returnPolicyId);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: ReturnPolicy::class);
     }
 
     /**
@@ -313,10 +309,9 @@ class ReturnPolicyApi implements ApiInterface
      */
     public function getReturnPolicyByNameWithHttpInfo(MarketplaceIdEnum $marketplaceId, string $name): array
     {
-        $returnType = ReturnPolicy::class;
         $request = $this->getReturnPolicyByNameRequest($marketplaceId, $name);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: ReturnPolicy::class);
     }
 
     /**
@@ -334,10 +329,12 @@ class ReturnPolicyApi implements ApiInterface
     protected function getReturnPolicyByNameRequest(MarketplaceIdEnum $marketplaceId, string $name): Request
     {
         $resourcePath = '/return_policy/get_by_policy_name';
-        $queryParams['marketplace_id'] = Serializer::toQueryValue($marketplaceId->value);
-        $queryParams['name'] = Serializer::toQueryValue($name);
+        $queryParameters = [
+            'marketplace_id' => $marketplaceId->value,
+            'name' => $name,
+        ];
 
-        return $this->ebayRequest->getRequest($resourcePath, $queryParams);
+        return $this->ebayRequest->getRequest($resourcePath, $queryParameters);
     }
 
     /**
@@ -370,10 +367,9 @@ class ReturnPolicyApi implements ApiInterface
      */
     public function updateReturnPolicyWithHttpInfo(ReturnPolicyRequest $body, string $returnPolicyId): array
     {
-        $returnType = SetReturnPolicyResponse::class;
         $request = $this->updateReturnPolicyRequest($body, $returnPolicyId);
 
-        return $this->ebayClient->sendRequest($request, $returnType);
+        return $this->ebayClient->sendRequest($request, returnType: SetReturnPolicyResponse::class);
     }
 
     /**
@@ -396,6 +392,6 @@ class ReturnPolicyApi implements ApiInterface
             $resourcePath
         );
 
-        return $this->ebayRequest->putRequest($body, $resourcePath);
+        return $this->ebayRequest->putRequest($resourcePath, $body);
     }
 }

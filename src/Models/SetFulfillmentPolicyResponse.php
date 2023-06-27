@@ -4,6 +4,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
 use SapientPro\EbayAccountSDK\Enums\MarketplaceIdEnum;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Complex type that that gets populated with a response containing a fulfillment policy.
@@ -18,18 +19,23 @@ class SetFulfillmentPolicyResponse implements EbayModelInterface
      *
      * @var CategoryType[]
      */
+    #[Assert\Type('array')]
     public array $categoryTypes;
 
     /** A seller-defined description of the fulfillment policy. This description is only for the seller's use, and is not exposed on any eBay pages. This field is returned if set for the policy. Max length: 250 */
+    #[Assert\Type('string')]
     public ?string $description;
 
     /** If returned as <code>true</code>, the seller offers freight shipping. Freight shipping can be used for large items over 150 lbs. */
+    #[Assert\Type('bool')]
     public bool $freightShipping = false;
 
     /** A unique eBay-assigned ID for a fulfillment business policy. This ID is generated when the policy is created. */
+    #[Assert\Type('string')]
     public string $fulfillmentPolicyId;
 
     /** If returned as <code>true</code>, the eBay Global Shipping Program will be used by the seller to ship items to international locations.<span class="tablenote">Note: On the US marketplace, the <em>Global Shipping Program</em> is scheduled to be replaced by a new intermediated international shipping program called <em>eBay International Shipping</em>. US sellers who are opted in to the Global Shipping Program will be automatically opted in to eBay International Shipping when it becomes available to them. All US sellers will be migrated by March 31, 2023. eBay International Shipping is an account level setting, and no field needs to be set in a Fulfillment business policy to enable it. As long as the US seller's account is opted in to eBay International Shipping, this shipping option will be enabled automatically for all listings where international shipping is available. A US seller who is opted in to eBay International Shipping can also specify individual international shipping service options for a Fulfillment business policy.</span> */
+    #[Assert\Type('bool')]
     public bool $globalShipping = false;
 
     /**
@@ -38,9 +44,11 @@ class SetFulfillmentPolicyResponse implements EbayModelInterface
      *
      * @var TimeDuration|null
      */
-    public ?TimeDuration $handlingTime;
+    #[Assert\Type(TimeDuration::class)]
+    public ?TimeDuration $handlingTime = null;
 
     /** If returned as <code>true</code>, local pickup is available for this policy. */
+    #[Assert\Type('bool')]
     public bool $localPickup = false;
 
     /**
@@ -49,12 +57,15 @@ class SetFulfillmentPolicyResponse implements EbayModelInterface
      *
      * @var MarketplaceIdEnum
      */
+    #[Assert\Type(MarketplaceIdEnum::class)]
     public MarketplaceIdEnum $marketplaceId;
 
     /** A seller-defined name for this fulfillment business policy. Names must be unique for policies assigned to the same marketplace. Max length: 64 */
+    #[Assert\Type('string')]
     public string $name;
 
     /** If returned as <code>true</code>, the seller offers the "Click and Collect" option. Currently, "Click and Collect" is available only to large retail merchants the eBay AU and UK marketplaces. */
+    #[Assert\Type('bool')]
     public bool $pickupDropOff = false;
 
     /**
@@ -67,9 +78,10 @@ class SetFulfillmentPolicyResponse implements EbayModelInterface
      * <p>A separate ShippingServices object is used to specify cost and other details
      * for every available domestic and international shipping service option. </p>
      *
-     * @var ShippingOption[]
+     * @var ShippingOption[]|null
      */
-    public ?array $shippingOptions;
+    #[Assert\Type('array')]
+    public ?array $shippingOptions = null;
 
     /**
      * This container consists of the regionIncluded and regionExcluded containers,
@@ -78,7 +90,8 @@ class SetFulfillmentPolicyResponse implements EbayModelInterface
      *
      * @var RegionSet|null
      */
-    public ?RegionSet $shipToLocations;
+    #[Assert\Type(RegionSet::class)]
+    public ?RegionSet $shipToLocations = null;
 
     /**
      * An array of one or more errors or warnings that were generated during the processing of the request.
@@ -86,5 +99,6 @@ class SetFulfillmentPolicyResponse implements EbayModelInterface
      *
      * @var Error[]
      */
+    #[Assert\Type('array')]
     public array $warnings;
 }

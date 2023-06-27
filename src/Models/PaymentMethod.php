@@ -5,6 +5,7 @@ namespace SapientPro\EbayAccountSDK\Models;
 use SapientPro\EbayAccountSDK\Enums\PaymentInstrumentBrandEnum;
 use SapientPro\EbayAccountSDK\Enums\PaymentMethodTypeEnum;
 use SapientPro\EbayAccountSDK\Models\Concerns\FillsModel;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * This type is used by the paymentMethods container,
@@ -23,7 +24,8 @@ class PaymentMethod implements EbayModelInterface
      * </span>
      * @var array<PaymentInstrumentBrandEnum>|null
      */
-    public ?array $brands;
+    #[Assert\Type('array')]
+    public ?array $brands = null;
 
     /**
      * eBay now controls all electronic payment methods available for a marketplace,
@@ -35,7 +37,8 @@ class PaymentMethod implements EbayModelInterface
      *
      * @var PaymentMethodTypeEnum|null
      */
-    public ?PaymentMethodTypeEnum $paymentMethodType;
+    #[Assert\Type(PaymentMethodTypeEnum::class)]
+    public ?PaymentMethodTypeEnum $paymentMethodType = null;
 
     /**
      * <span class="tablenote">Note: This container is no longer applicable and should not be used.
@@ -45,5 +48,6 @@ class PaymentMethod implements EbayModelInterface
      *
      * @var RecipientAccountReference|null
      */
-    public ?RecipientAccountReference $recipientAccountReference;
+    #[Assert\Type(RecipientAccountReference::class)]
+    public ?RecipientAccountReference $recipientAccountReference = null;
 }
